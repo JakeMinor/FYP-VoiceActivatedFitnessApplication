@@ -6,10 +6,9 @@ on:
   push:
   pull_request:
 
-#Specifies what should happen when a push or pull request is made to the main branch.
+#Specifies what should happen when a push or pull request is made.
 jobs:
-  build:
-
+  build-and-test-server:
     runs-on: ubuntu-latest
 
     #Specify that the build should be done with version 16.x of Node.js.
@@ -19,6 +18,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      
+    # Set up Node.js at version 16.x and cache server dependencies.
     - name: Set up Node.js and dependencies
       uses: actions/setup-node@v2
       with:
@@ -26,14 +27,45 @@ jobs:
         cache: 'npm'
         cache-dependency-path: server/package-lock.json
         
-    - name: Run & Build Server
+    # Build the server project.
+    - name: Build
+      # Navigate into the server directory, perform a clean install of the package.json file and run the build command.
       run: |
-        cd server
+        cd server 
         npm ci 
         npm run build --if-present
+    
+    #TODO: Add unit and integration tests
+          
+  build-and-test-ui:
+    runs-on: ubuntu-latest
+    
+    #Specify that the build should be done with version 16.x of Node.js.
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+
+    steps:
+      # Build the UI project.
+      - name: Build
+        # Navigate into the ui directory, perform a clean install of the package.json file and run the build command.
+        run: |
+          cd ui
+          npm ci 
+          npm run build --if-present
       
-    - name: Run & Build UI
-      run: |
-        cd ui
-        npm ci 
-        npm run build --if-present
+      - name: Install packages
+        run: npm i --prefix ui #Install any packages in package.json file.
+      
+      - name: Run unit tests
+        run: npm run test:unit #Run the unit tests.
+          
+      - name: Run e2e tests
+        uses: cypress-io/github-action@v3 #Specify cypress will be used.
+        with:
+          browser: chrome #Specify the browser used should be chrome.
+          working-directory: ui #Specify the working directory.
+          config-file: cypress.json #Specify the name of the cypress config file.
+          start: npm run serve #Run the UI project.
+          wait-on: 'http://localhost:8080' #Wait until localhost:8080 has fully served before running tests.
+        
