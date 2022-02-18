@@ -46,6 +46,16 @@ jobs:
         node-version: [ 16.x ]
 
     steps:
+      - uses: actions/checkout@v2
+          
+      # Set up Node.js at version 16.x and cache server dependencies.
+      - name: Set up Node.js and dependencies
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ui/package-lock.json
+          
       # Build the UI project.
       - name: Build
         # Navigate into the ui directory, perform a clean install of the package.json file and run the build command.
