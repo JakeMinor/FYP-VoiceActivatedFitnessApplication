@@ -35,7 +35,9 @@ jobs:
         npm ci 
         npm run build --if-present
     
-    #TODO: Add unit and integration tests
+    - name: Run unit tests
+      
+    - name: Run integration tests
           
   build-and-test-ui:
     runs-on: ubuntu-latest
