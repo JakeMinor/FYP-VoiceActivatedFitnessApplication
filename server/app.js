@@ -1,9 +1,9 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
+import createError  from "http-errors"
+import express from "express"
+import path from "path"
+import cookieParser from "cookie-parser"
 
-const indexRouter = require('./routes/index');
+import indexRouter from "./routes/index"
 
 const app = express();
 
