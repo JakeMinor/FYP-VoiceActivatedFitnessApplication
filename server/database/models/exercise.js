@@ -2,12 +2,12 @@
 import { Model } from "sequelize"
 
 module.exports = (sequelize, DataTypes) => {
-  class Equipment extends Model {
+  class Exercise extends Model {
     static associate(models) {
-      Equipment.belongsToMany(models.Exercise, {through: 'ExercisesEquipment'})
+      Exercise.belongsToMany(models.Equipment, {through: 'ExercisesEquipment'})
     }
   }
-  Equipment.init({
+  Exercise.init({
     id: {
       allowNull: false,
       primaryKey: true,
@@ -17,10 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    information: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'Equipment',
+    modelName: 'Exercise',
   });
-  return Equipment;
+  return Exercise;
 };
