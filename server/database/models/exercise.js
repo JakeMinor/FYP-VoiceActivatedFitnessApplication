@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class Exercise extends Model {
     static associate(models) {
       Exercise.belongsToMany(models.Equipment, {through: 'ExercisesEquipment'})
+      Exercise.belongsToMany(models.Workout, {through: 'WorkoutsExercises'})
     }
   }
   Exercise.init({
