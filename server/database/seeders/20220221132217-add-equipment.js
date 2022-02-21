@@ -41,6 +41,9 @@ module.exports = {
       },
       {
         name: "Skipping rope"
+      },
+      {
+        name: "Bench"
       }
     ], {})
   },
