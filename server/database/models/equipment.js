@@ -4,7 +4,7 @@ import { Model } from "sequelize"
 module.exports = (sequelize, DataTypes) => {
   class Equipment extends Model {
     static associate(models) {
-      Equipment.belongsToMany(models.Exercise, {through: 'ExercisesEquipment'})
+      Equipment.belongsToMany(models.Exercise, {through: "Exercises_Equipment"})
     }
   }
   Equipment.init({
