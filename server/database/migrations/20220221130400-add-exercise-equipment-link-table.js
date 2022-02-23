@@ -5,13 +5,13 @@ module.exports = {
   return queryInterface.sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";')
     .then(() => {
      return queryInterface.createTable(
-       'Exercises_Equipment',
+       'Exercises_Equipments',
        {
         ExerciseId: {
          type: Sequelize.UUID,
          primaryKey: true,
          references: {
-          model: "Exercise",
+          model: "Exercises",
           key: "id"
          }
         },
@@ -19,7 +19,7 @@ module.exports = {
          type: Sequelize.UUID,
          primaryKey: true,
          references: {
-          model: "Equipment",
+          model: "Equipments",
           key: "id"
          }
         },
@@ -39,6 +39,6 @@ module.exports = {
  },
 
  async down(queryInterface, Sequelize) {
-  return queryInterface.dropTable('Exercises_Equipment');
+  return queryInterface.dropTable('Exercises_Equipments');
  }
 };

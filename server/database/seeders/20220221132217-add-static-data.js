@@ -6,9 +6,9 @@ module.exports = {
     /**
      * Seed Equipment/Exercises/Workouts then return an array of the seeded IDs to be used in the association table.
      */
-    const seededEquipment = await queryInterface.bulkInsert('Equipment', equipment, { returning: ["id", "name"] })
-    const seededExercises = await queryInterface.bulkInsert('Exercise', exercises, { returning: ["id", "name"] })
-    const seededWorkouts = await queryInterface.bulkInsert('Workout', workouts, { returning: ["id", "name"] })
+    const seededEquipment = await queryInterface.bulkInsert('Equipments', equipment, { returning: ["id", "name"] })
+    const seededExercises = await queryInterface.bulkInsert('Exercises', exercises, { returning: ["id", "name"] })
+    const seededWorkouts = await queryInterface.bulkInsert('Workouts', workouts, { returning: ["id", "name"] })
     
     /**
      * Create object arrays containing all the related data.
@@ -185,7 +185,7 @@ module.exports = {
     /**
      * Populate link tables with the related data.
      */
-    await queryInterface.bulkInsert('Exercises_Equipment', exercisesEquipment, {})
+    await queryInterface.bulkInsert('Exercises_Equipments', exercisesEquipment, {})
     await queryInterface.bulkInsert('Workouts_Exercises', workoutsExercises, {})
   },
   async down (queryInterface, Sequelize) {
@@ -193,10 +193,10 @@ module.exports = {
      * Delete all data from all the tables.
      */
     await queryInterface.bulkDelete('Workouts_Exercises', null, {});
-    await queryInterface.bulkDelete('Exercises_Equipment', null, {});
-    await queryInterface.bulkDelete('Workout', null, {});
-    await queryInterface.bulkDelete('Equipment', null, {});
-    await queryInterface.bulkDelete('Exercise', null, {});
+    await queryInterface.bulkDelete('Exercises_Equipments', null, {});
+    await queryInterface.bulkDelete('Workouts', null, {});
+    await queryInterface.bulkDelete('Equipments', null, {});
+    await queryInterface.bulkDelete('Exercises', null, {});
   }
 };
 

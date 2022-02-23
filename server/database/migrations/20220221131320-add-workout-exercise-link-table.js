@@ -11,7 +11,7 @@ module.exports = {
          type: Sequelize.UUID,
          primaryKey: true,
          references: {
-          model: "Exercise",
+          model: "Exercises",
           key: "id"
          }
         },
@@ -19,7 +19,7 @@ module.exports = {
          type: Sequelize.UUID,
          primaryKey: true,
          references: {
-          model: "Workout",
+          model: "Workouts",
           key: "id"
          }
         },

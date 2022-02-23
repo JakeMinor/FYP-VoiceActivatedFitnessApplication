@@ -1,4 +1,4 @@
-﻿require('dotenv').config() //Get custom environment variables from .env file
+﻿require('dotenv').config({path: __dirname + '/./../../.env'}) //Get custom environment variables from .env file
 
 module.exports = {
  /**
