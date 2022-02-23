@@ -1,16 +1,17 @@
 'use strict';
-const {equipment, exercises} = require('../config/data')
+const {equipment, exercises, workouts} = require('../config/data')
 
 module.exports = {
   async up (queryInterface, Sequelize) {
     /**
-     * Seed Equipment/Exercises then return an array of the seeded IDs to be used in the association table.
+     * Seed Equipment/Exercises/Workouts then return an array of the seeded IDs to be used in the association table.
      */
     const seededEquipment = await queryInterface.bulkInsert('Equipment', equipment, { returning: ["id", "name"] })
     const seededExercises = await queryInterface.bulkInsert('Exercise', exercises, { returning: ["id", "name"] })
+    const seededWorkouts = await queryInterface.bulkInsert('Workout', workouts, { returning: ["id", "name"] })
     
     /**
-     * Create an object array containing all the related Exercises and Equipment.
+     * Create object arrays containing all the related data.
      */
     const exercisesEquipment = [
       {
@@ -122,17 +123,78 @@ module.exports = {
         EquipmentId: getIdByName('Dumbbells', seededEquipment)
       }
     ]
+    const workoutsExercises = [
+      {
+        WorkoutId: getIdByName('All body workout', seededWorkouts),
+        ExerciseId: getIdByName('Pushup', seededExercises),
+        Reps: 15,
+        Sets: 3,
+        RestTimeInSeconds: 90
+      },
+      {
+        WorkoutId: getIdByName('All body workout', seededWorkouts),
+        ExerciseId: getIdByName('Squat', seededExercises),
+        Reps: 15,
+        Sets: 3,
+        RestTimeInSeconds: 120
+      },
+      {
+        WorkoutId: getIdByName('All body workout', seededWorkouts),
+        ExerciseId: getIdByName('Pullups', seededExercises),
+        Reps: 10,
+        Sets: 4,
+        RestTimeInSeconds: 120
+      },
+      {
+        WorkoutId: getIdByName('All body workout', seededWorkouts),
+        ExerciseId: getIdByName('Lunge', seededExercises),
+        Reps: 15,
+        Sets: 3,
+        RestTimeInSeconds: 60
+      },
+      {
+        WorkoutId: getIdByName('All body workout', seededWorkouts),
+        ExerciseId: getIdByName('Shoulder press', seededExercises),
+        Reps: 10,
+        Sets: 3,
+        RestTimeInSeconds: 60
+      },
+      {
+        WorkoutId: getIdByName('All body workout', seededWorkouts),
+        ExerciseId: getIdByName('Calf raise', seededExercises),
+        Reps: 15,
+        Sets: 3,
+        RestTimeInSeconds: 45
+      },
+      {
+        WorkoutId: getIdByName('All body workout', seededWorkouts),
+        ExerciseId: getIdByName('Plank', seededExercises),
+        TimeInSeconds: 60,
+        Sets: 3,
+        RestTimeInSeconds: 60
+      },
+      {
+        WorkoutId: getIdByName('All body workout', seededWorkouts),
+        ExerciseId: getIdByName('Run', seededExercises),
+        TimeInSeconds: 60,
+        Sets: 3,
+        RestTimeInSeconds: 30
+      }
+    ]
     
     /**
-     * Populate ExerciseEquipment with the related Exercises and their Equipment.
+     * Populate link tables with the related data.
      */
     await queryInterface.bulkInsert('Exercises_Equipment', exercisesEquipment, {})
+    await queryInterface.bulkInsert('Workouts_Exercises', workoutsExercises, {})
   },
   async down (queryInterface, Sequelize) {
     /**
-     * Delete all data from the link table and the equipment and exercises table.
+     * Delete all data from all the tables.
      */
+    await queryInterface.bulkDelete('Workouts_Exercises', null, {});
     await queryInterface.bulkDelete('Exercises_Equipment', null, {});
+    await queryInterface.bulkDelete('Workout', null, {});
     await queryInterface.bulkDelete('Equipment', null, {});
     await queryInterface.bulkDelete('Exercise', null, {});
   }
@@ -140,9 +202,9 @@ module.exports = {
 
 /**
  * Returns an ID from a list based on the name provided.
- * @param name - name of the exercise/equipment which is to be retrieved.
- * @param list - The list the exercise/equipment belongs to.
- * @returns UUID of the exercise/equipment.
+ * @param name - name of the object which is to be retrieved.
+ * @param list - The list the object belongs to.
+ * @returns UUID of the object.
  */
 function getIdByName(name, list) {
   try{

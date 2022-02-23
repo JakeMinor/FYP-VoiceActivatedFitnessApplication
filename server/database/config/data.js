@@ -147,3 +147,12 @@ module.exports.exercises = [
   information: "A Tricep Extension is a strength exercise performed using dumbbells or cables. The trainee starts the dumbbells directly overhead, they then fully extend both arms and lower the weight down behind the head and lower at the elbows."
  }
 ]
+
+/**
+ * A List of all the workouts which are to be seeded into the database.
+ */
+module.exports.workouts = [
+ {
+  name: "All body workout"
+ }
+]

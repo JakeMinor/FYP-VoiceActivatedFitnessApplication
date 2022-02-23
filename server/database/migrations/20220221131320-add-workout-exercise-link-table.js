@@ -23,6 +23,22 @@ module.exports = {
           key: "id"
          }
         },
+        Reps: {
+         type: Sequelize.INTEGER,
+         defaultValue: null
+        },
+        Sets: {
+         type: Sequelize.INTEGER,
+         defaultValue: null
+        },
+        TimeInSeconds: {
+         type: Sequelize.INTEGER,
+         defaultValue: null
+        },
+        RestTimeInSeconds: {
+         type: Sequelize.INTEGER,
+         defaultValue: 120
+        },
         createdAt: {
          allowNull: false,
          type: Sequelize.DATE,
