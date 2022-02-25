@@ -19,12 +19,14 @@ jobs:
     services:
       postgres:
         image: postgres
-    
+
+        ports:
+          - 5432
+  
         env: 
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: DBPassword
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
+          POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           
         options: >-
           --health-cmd pg_isready
