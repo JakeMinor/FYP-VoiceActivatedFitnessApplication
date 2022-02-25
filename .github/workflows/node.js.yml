@@ -56,7 +56,7 @@ jobs:
         cd server
         npm run test
       env:
-        POSTGRES_HOST: postgres
+        POSTGRES_HOST: 127.0.0.1
         POSTGRES_PORT: 5432
         
     # Save a copy of the coverage report as an artifact to use later in the pipeline.
