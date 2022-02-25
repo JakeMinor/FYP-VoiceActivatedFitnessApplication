@@ -14,6 +14,8 @@ console.log(config)
 
 sequelize = new Sequelize(config.database, config.username, config.password, config);
 
+console.log(sequelize)
+
 fs
   .readdirSync(__dirname)
   .filter(file => {
