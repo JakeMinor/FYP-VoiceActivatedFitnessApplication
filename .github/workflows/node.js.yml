@@ -15,24 +15,29 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-      
+    
+    # Set the Node Environment to test.
     env:
       NODE_ENV: test
 
+    # Create a postgres server for the integration tests to use.
     services:
       postgres:
         image: postgres
         
+        # Set the database config for the docker image to use.
         env: 
           POSTGRES_DB: FYP-Fitness-Application-Test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: DBPassword
           POSTGRES_PORT: 5432
           POSTGRES_HOST: 127.0.0.1
-          
+        
+        # Map the tcp port to the postgres default port (5432).
         ports:
           - "5432:5432"
           
+        # Set up health checks to ensure that the server is successfully created.
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -70,7 +75,7 @@ jobs:
       with:
         name: server-coverage-report
         path: |
-          coverage
+          server/coverage
     
   build-and-test-ui:
     runs-on: ubuntu-latest
@@ -113,7 +118,7 @@ jobs:
         with:
           name: ui-coverage-report
           path: |
-            coverage
+            ui/coverage
             
   coverage-report:
     runs-on: ubuntu-latest
