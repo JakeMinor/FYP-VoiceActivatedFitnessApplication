@@ -9,6 +9,15 @@ module.exports = {
   password: process.env.DB_PASSWORD,
   database: "FYP-Fitness-Application",
   host: "127.0.0.1",
-  dialect: "postgres"
+  dialect: "postgres",
+  logging: false
+ },
+ test: {
+  username: "postgres",
+  password: process.env.DB_PASSWORD,
+  database: "FYP-Fitness-Application-Test",
+  host: "127.0.0.1",
+  dialect: "postgres",
+  logging: false
  }
 }

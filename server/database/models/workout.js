@@ -3,7 +3,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Workout extends Model {
     static associate(models) {
-      Workout.belongsToMany(models.Exercise, {through: "Workouts_Exercises"})
+      Workout.belongsToMany(models.Exercises, {through: "Workouts_Exercises"})
     }
   }
   Workout.init({
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Workout',
+    modelName: 'Workouts',
   });
   return Workout;
 };
