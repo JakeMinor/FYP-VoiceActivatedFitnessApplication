@@ -2,6 +2,15 @@
 node_modules
 /dist
 
+#Ignore all coverage files apart from the .info file which is used to display the coverage on github
+server/.nyc_output/*.json
+server/.nyc_output/processinfo/*.json
+server/coverage/lcov-report
+ui/coverage/lcov-report
+ui/coverage/clover.xml
+ui/coverage/coverage-final.json
+
+#Ignore any videos or screenshots which are output by cypress
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 

@@ -1,21 +1,49 @@
-#Specifies the name of the workflow.
+# Specifies the name of the workflow.
 name: CI
 
-#Specifies the actions which the pipeline should run.
+# Specifies the actions which the pipeline should run.
 on: 
   push:
   pull_request:
 
-#Specifies what should happen when a push or pull request is made.
+# Specifies what should happen when a push or pull request is made.
 jobs:
   build-and-test-server:
     runs-on: ubuntu-latest
 
-    #Specify that the build should be done with version 16.x of Node.js.
+    # Specify that the build should be done with version 16.x of Node.js.
     strategy:
       matrix:
         node-version: [16.x]
+    
+    # Set the Node Environment to test.
+    env:
+      NODE_ENV: test
 
+    # Create a postgres server for the integration tests to use.
+    services:
+      postgres:
+        image: postgres
+        
+        # Set the database config for the docker image to use.
+        env: 
+          POSTGRES_DB: FYP-Fitness-Application-Test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: DBPassword
+          POSTGRES_PORT: 5432
+          POSTGRES_HOST: 127.0.0.1
+        
+        # Map the tcp port to the postgres default port (5432).
+        ports:
+          - "5432:5432"
+          
+        # Set up health checks to ensure that the server is successfully created.
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      
     steps:
     - uses: actions/checkout@v2
       
@@ -35,12 +63,24 @@ jobs:
         npm ci 
         npm run build --if-present
     
-    #TODO: Add unit and integration tests
+    # Run the integration and unit tests for the server.
+    - name: Run Integration & Unit tests
+      # Navigate into the server directory and run the test command.
+      run: |
+        cd server
+        npm run test
+        
+    # Save a copy of the coverage report as an artifact to use later in the pipeline.
+    - uses: actions/upload-artifact@master
+      with:
+        name: server-coverage-report
+        path: |
+          server/coverage
     
   build-and-test-ui:
     runs-on: ubuntu-latest
     
-    #Specify that the build should be done with version 16.x of Node.js.
+    # Specify that the build should be done with version 16.x of Node.js.
     strategy:
       matrix:
         node-version: [ 16.x ]
@@ -56,11 +96,14 @@ jobs:
           npm ci 
           npm run build --if-present
       
+      # Run the unit tests for the UI.
       - name: Run unit tests
+        # Navigate into the ui directory and run the unit test command.
         run: |
           cd ui
           npm run test:unit
-          
+      
+      # Run the web GUI tests
       - name: Run e2e tests
         uses: cypress-io/github-action@v3 #Specify cypress will be used.
         with:
@@ -69,4 +112,44 @@ jobs:
           config-file: cypress.json #Specify the name of the cypress config file.
           start: npm run serve #Run the UI project.
           wait-on: 'http://localhost:8080' #Wait until localhost:8080 has fully served before running tests.
-        
+
+      # Save a copy of the coverage report as an artifact to use later in the pipeline.
+      - uses: actions/upload-artifact@master
+        with:
+          name: ui-coverage-report
+          path: |
+            ui/coverage
+            
+  coverage-report:
+    runs-on: ubuntu-latest
+    # Wait until the Server and UI have been built and tested before running this part of the pipeline.
+    needs: [ build-and-test-server, build-and-test-ui ] 
+
+    # Only run when its a pull request.
+    if: >-
+      github.event_name == 'pull_request'
+      
+    steps:
+      # Get the server coverage report from the saved artifacts.
+      - uses: actions/download-artifact@master
+        with:
+          name: server-coverage-report
+      
+      # Print the server coverage report to the comments of the pull request.
+      - name: Server coverage report
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          lcov-file: lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Get the UI coverage report from the saved artifacts.
+      - uses: actions/download-artifact@master
+        with:
+          name: ui-coverage-report
+
+      # Print the UI coverage report to the comments of the pull request.
+      - name: UI coverage report
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          lcov-file: lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}

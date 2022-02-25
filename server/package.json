@@ -3,12 +3,24 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "pretest": "set NODE_ENV=test && npx sequelize-cli db:drop --env=test --config ./database/config/database.config.js && npx sequelize-cli db:create --env=test --config ./database/config/database.config.js && npx sequelize-cli db:migrate --env=test --config ./database/config/database.config.js --migrations-path ./database/migrations && npx sequelize-cli db:seed:all --env=test --seeders-path ./database/seeders/test --config ./database/config/database.config.js",
+    "test": "set NODE_ENV=test && nyc --reporter lcov --reporter text mocha --recursive --timeout 5000 --exit"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.0",
     "express": "~4.16.1",
-    "http-errors": "~1.6.3"
+    "http-errors": "~1.6.3",
+    "pg": "^8.7.3",
+    "sequelize": "^6.16.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.2.1",
+    "nyc": "^15.1.0",
+    "sequelize-cli": "^6.4.1"
   }
 }
