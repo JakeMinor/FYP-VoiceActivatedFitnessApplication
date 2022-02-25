@@ -18,6 +18,7 @@ describe('Workout Integration Tests', () => {
    
    //Act
    const result = await chai.request(server).get(`${baseUrl}${workoutName}`)
+   console.log(result)
    
    //Assert
    result.should.have.status(200)
