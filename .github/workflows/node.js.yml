@@ -23,6 +23,8 @@ jobs:
         env: 
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: DBPassword
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
           
         options: >-
           --health-cmd pg_isready
@@ -56,8 +58,7 @@ jobs:
         cd server
         npm run test
       env:
-        POSTGRES_HOST: 127.0.0.1
-        POSTGRES_PORT: 5432
+
         
     # Save a copy of the coverage report as an artifact to use later in the pipeline.
     - uses: actions/upload-artifact@master
