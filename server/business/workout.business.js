@@ -14,6 +14,6 @@ module.exports = class WorkoutBusiness {
      attributes: ['Reps', 'Sets', 'TimeInSeconds', 'RestTimeInSeconds'] //Retrieve the Reps, Sets, TimeInSeconds, RestTimeInSeconds which are listed in the WorkoutsExercises table. 
     }
    }]
-  }).catch(error => {throw httpError(500, error.message)}) //Catch any Database errors
+  }).catch(error => {throw httpError(500, error.message)}) //Catch any Database errors.
  }
 }
