@@ -153,3 +153,22 @@ jobs:
         with:
           lcov-file: lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}
+    
+  deploy-server: 
+    runs-on: ubuntu-latest
+    # Wait until the Server and UI have been built and tested before running this part of the pipeline.
+    needs: [ build-and-test-server, build-and-test-ui ]
+
+    # Only run when its a pull request.
+    if: >-
+      github.event_name == 'pull_request'
+      
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "fyp-voice-activated-fitness"
+          heroku_email: "b8015484@my.shu.ac.uk"
