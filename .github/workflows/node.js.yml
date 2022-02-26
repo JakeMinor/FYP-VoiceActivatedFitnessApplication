@@ -172,3 +172,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "fyp-voice-activated-fitness"
           heroku_email: "b8015484@my.shu.ac.uk"
+          appdir: "server"
