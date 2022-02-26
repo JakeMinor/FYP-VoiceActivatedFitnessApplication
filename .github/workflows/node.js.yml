@@ -165,7 +165,6 @@ jobs:
       
     steps:
       - uses: actions/checkout@v2
-      - run: cd server
 
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
