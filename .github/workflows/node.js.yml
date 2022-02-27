@@ -178,6 +178,6 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: |
-          heroku config:set PGSSLMODE=no-verify 
+          heroku config:set PGSSLMODE=no-verify  
           heroku run npx sequelize-cli db:migrate --env production --app fyp-voice-activated-fitness --migrations-path ./database/migrations --config ./database/config/database.config.js
-          heroku run npx sequelize-cli db:seed:all --env production --seeders-path ./database/seeders/test --app fyp-voice-activated-fitness --config ./database/config/database.config.js
+          heroku run npx sequelize-cli db:seed:all --env production --seeders-path ./database/seeders/development --app fyp-voice-activated-fitness --config ./database/config/database.config.js
