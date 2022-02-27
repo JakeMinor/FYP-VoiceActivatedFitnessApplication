@@ -175,9 +175,8 @@ jobs:
           appdir: "server" # The sub directory to deploy
           
       - name: Migrate database
-        uses: sequelize/cli@v6.4.1
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: |
-          heroku run sequelize db:migrate --env production --app fyp-voice-activated-fitness
-          heroku run sequelize db:seed:all --env production --seeders-path ./database/seeders/test --app fyp-voice-activated-fitness
+          heroku run npx sequelize-cli db:migrate --env production --app fyp-voice-activated-fitness
+          heroku run npx sequelize-cli db:seed:all --env production --seeders-path ./database/seeders/test --app fyp-voice-activated-fitness
