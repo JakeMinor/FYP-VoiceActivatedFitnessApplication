@@ -1,5 +1,5 @@
 'use strict';
-const {equipment, exercises, workouts} = require('/server/database/config/data')
+const {equipment, exercises, workouts} = require('../../config/data')
 
 module.exports = {
   async up (queryInterface, Sequelize) {
