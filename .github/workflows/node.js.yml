@@ -173,19 +173,11 @@ jobs:
           heroku_app_name: "fyp-voice-activated-fitness" # Specify the name of the app to deploy to.
           heroku_email: "b8015484@my.shu.ac.uk" # The email of the account to log into.
           appdir: "server" # The sub directory to deploy
-          
-      - name: Authenticate with Heroku
-        uses: AkhileshNS/heroku-deploy@v3.12.12
-        with:
-          justlogin: true
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}} # Get the API key from Github Secrets.
-          heroku_app_name: "fyp-voice-activated-fitness" # Specify the name of the app to deploy to.
-          heroku_email: "b8015484@my.shu.ac.uk" # The email of the account to log into.
-          appdir: "server" # The sub directory to deploy
       
       - name: Migrate database
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        run: | 
+        run: |
+          heroku config:set PGSSLMODE=require 
           heroku run npx sequelize-cli db:migrate --env production --app fyp-voice-activated-fitness --config ./database/config/database.config.js
           heroku run npx sequelize-cli db:seed:all --env production --seeders-path ./database/seeders/test --app fyp-voice-activated-fitness --config ./database/config/database.config.js
