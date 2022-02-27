@@ -178,5 +178,5 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: |
-          heroku run npx sequelize-cli db:migrate --env production --app fyp-voice-activated-fitness
-          heroku run npx sequelize-cli db:seed:all --env production --seeders-path ./database/seeders/test --app fyp-voice-activated-fitness
+          heroku run npx sequelize-cli db:migrate --env production --app fyp-voice-activated-fitness --config ./database/config/database.config.js
+          heroku run npx sequelize-cli db:seed:all --env production --seeders-path ./database/seeders/test --app fyp-voice-activated-fitness --config ./database/config/database.config.js
