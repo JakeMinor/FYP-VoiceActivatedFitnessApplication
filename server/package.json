@@ -8,11 +8,16 @@
     "test": "set NODE_ENV=test && nyc --reporter lcov --reporter text mocha --recursive --timeout 5000 --exit"
   },
   "dependencies": {
+    "axios": "^0.26.0",
     "cookie-parser": "~1.4.4",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^16.0.0",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "passport": "^0.5.2",
+    "passport-amazon": "^1.0.0",
     "pg": "^8.7.3",
     "sequelize": "^6.16.2"
   },
