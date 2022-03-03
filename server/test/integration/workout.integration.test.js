@@ -1,12 +1,22 @@
 ﻿const chai = require('chai')
-const server = require('../../app')
+const auth = require('../../router/router.middleware')
+const sinon = require('sinon')
 const should = chai.should()
 
-const baseUrl = '/workout/'
+let server;
+
+const baseUrl = '/v1/workout/'
 
 chai.use(require('chai-http'))
 
 describe('Workout Integration Tests', () => {
+ before('Mock out authentication middleware', () => {
+  sinon.stub(auth, 'isAuthenticated').callsFake((request, response, next) => {
+   next()
+  })
+  
+  server = require('../../app')
+ })
  /**
   * Tests for the FindWorkoutByName Controller.
   */
