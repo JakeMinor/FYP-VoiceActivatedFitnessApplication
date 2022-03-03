@@ -9,7 +9,7 @@ module.exports = {
      if(!user){
       throw httpError(401, 'The provided token is invalid or has expired.')
      }
-
+     console.log(user)
      request.user = {
       displayName: user.name,
       email: user.email
