@@ -7,4 +7,9 @@
   return this.model.findOne(filter) //Find one item based on the provided filter.
     .catch(error => {return error})
  }
+ 
+ async bulkCreate(data) {
+  return this.model.bulkCreate(data)
+    .catch(error => {return error})
+ }
 }

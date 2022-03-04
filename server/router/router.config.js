@@ -1,4 +1,5 @@
 ﻿const workoutRoutes = require("./routes/workout")
+const statisticRoutes = require("./routes/statistic")
 const authRoutes = require("./routes/auth")
 
 /**
@@ -6,5 +7,6 @@ const authRoutes = require("./routes/auth")
  */
 module.exports = (app) => {
  app.use('/v1/workout', workoutRoutes)
+ app.use('/v1/statistic', statisticRoutes)
  app.use('/v1/auth', authRoutes)
 }

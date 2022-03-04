@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Exercise.belongsToMany(models.Equipments, {through: "Exercises_Equipments"})
       Exercise.belongsToMany(models.Workouts, {through: "Workouts_Exercises"})
+      Exercise.hasMany(models.Statistics, {foreignKey: {name: 'exerciseId', allowNull: false}})
     }
   }
   Exercise.init({
@@ -13,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4
+      defaultValue: DataTypes.UUIDV4,
+      isUUID: 4
     },
     name: {
       type: DataTypes.STRING,
