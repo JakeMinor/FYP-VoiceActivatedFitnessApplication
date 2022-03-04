@@ -8,4 +8,9 @@ const isAuthenticated = require('../router.middleware').isAuthenticated
  */
 router.post('/', isAuthenticated, statisticController.createWorkoutStatistics)
 
+/**
+ * Get all completed workouts
+ */
+router.get('/', isAuthenticated, statisticController.getCompletedWorkouts)
+
 module.exports = router

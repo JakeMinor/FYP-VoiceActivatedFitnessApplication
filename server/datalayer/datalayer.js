@@ -9,7 +9,7 @@
   * @returns Array of the specified model.
   */
  async findAll(filter) {
-  this.model.findAll(filter)
+  return this.model.findAll(filter)
     .catch(error => {return error})
  }
 
