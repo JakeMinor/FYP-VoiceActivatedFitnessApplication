@@ -1,6 +1,7 @@
 ﻿const httpError = require("http-errors")
 const DataLayer = require('../datalayer/datalayer')
 const Exercises = require(`../database/models`)['Exercises']
+const Statistics = require('../database/models')['Statistics']
 const dataLayer = new DataLayer('Workouts')
 
 module.exports = class WorkoutBusiness {
@@ -15,5 +16,14 @@ module.exports = class WorkoutBusiness {
     }
    }]
   }).catch(error => {throw httpError(500, error.message)}) //Catch any Database errors.
+ }
+ 
+ async getCompletedWorkouts(user) {
+  return dataLayer.findAll({
+   where: {user: user},
+   include: [{
+    model: Statistics
+   }]
+  })
  }
 }
