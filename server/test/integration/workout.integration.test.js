@@ -3,18 +3,18 @@ const auth = require('../../router/router.middleware')
 const sinon = require('sinon')
 const should = chai.should()
 
-let server;
+let server
 
 const baseUrl = '/v1/workout/'
 
 chai.use(require('chai-http'))
 
 describe('Workout Integration Tests', () => {
- before('Mock out authentication middleware', () => {
+ beforeEach(() => {
   sinon.stub(auth, 'isAuthenticated').callsFake((request, response, next) => {
    next()
   })
-  
+
   server = require('../../app')
  })
  /**
@@ -28,7 +28,7 @@ describe('Workout Integration Tests', () => {
    
    //Act
    const result = await chai.request(server).get(`${baseUrl}${workoutName}`)
-
+   
    //Assert
    result.should.have.status(200)
    result.body.name.should.equal(workoutName)
