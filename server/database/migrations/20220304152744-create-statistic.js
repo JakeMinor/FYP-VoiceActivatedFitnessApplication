@@ -19,24 +19,28 @@ module.exports = {
             }
           },
           user: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
           },
           exerciseId: {
             type: Sequelize.UUID,
             foreignKey: true,
+            allowNull: false,
             references: {
               model: "Exercises",
               key: "id"
             }
           },
           set: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            allowNull: false
           },
           weight: {
             type: Sequelize.INTEGER
           },
-          completedReps: {
-            type: Sequelize.INTEGER
+          reps: {
+            type: Sequelize.INTEGER,
+            allowNull: false
           },
           createdAt: {
             allowNull: false,

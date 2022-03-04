@@ -41,11 +41,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     weight: {
       type: DataTypes.NUMBER,
-      allowNull: false,
-      defaultValue: 0,
+      defaultValue: null,
       isInt: true
     },
-    completedReps: {
+    reps: {
       type: DataTypes.NUMBER,
       allowNull: false,
       isInt: true
