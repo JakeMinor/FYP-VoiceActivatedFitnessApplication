@@ -37,14 +37,16 @@ describe('Workout Statistics Tests', () => {
      exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
      set: 1,
      weight: null,
-     reps: 15
+     reps: 15,
+     completedDate: Date.now().toString()
     },
     {
      workoutId: "c98b0aa7-73ef-40ad-a366-6b3e36634fdb",
      exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
      set: 2,
      weight: 15,
-     reps: 10
+     reps: 10,
+     completedDate: Date.now().toString()
     },
    ]
    const expectedUser = "TestUser@email.com"
@@ -68,7 +70,8 @@ describe('Workout Statistics Tests', () => {
      exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
      set: 1,
      weight: null,
-     reps: 15
+     reps: 15,
+     completedDate: Date.now().toString()
     },
    ]
    const expectedError = "Workout Statistic data is missing."
@@ -90,7 +93,8 @@ describe('Workout Statistics Tests', () => {
      exerciseId: null,
      set: 1,
      weight: null,
-     reps: 15
+     reps: 15,
+     completedDate: Date.now().toString()
     },
    ]
    const expectedError = "Workout Statistic data is missing."
@@ -112,7 +116,8 @@ describe('Workout Statistics Tests', () => {
      exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
      set: null,
      weight: null,
-     reps: 15
+     reps: 15,
+     completedDate: Date.now().toString()
     },
    ]
    const expectedError = "Workout Statistic data is missing."
@@ -134,39 +139,8 @@ describe('Workout Statistics Tests', () => {
      exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
      set: 1,
      weight: null,
-     reps: null
-    },
-   ]
-   const expectedError = "Workout Statistic data is missing."
-
-
-   // Act
-   const result = await chai.request(server).post(`${baseUrl}`).send(workoutStatistics)
-
-   // Assert
-   result.should.have.status(400)
-   result.body.message.should.be.equal(expectedError)
-  })
-
-  it('Should return 400 and an error message if the user is missing.', async () => {
-   // Arrange
-
-   // Mock isAuthenticated to return user as null
-   auth.isAuthenticated.restore()
-   sinon.stub(auth, 'isAuthenticated').callsFake((request, response, next) => {
-    request.user = null
-    next()
-   })
-
-   server = require('../../app')
-
-   const workoutStatistics = [
-    {
-     workoutId: "c98b0aa7-73ef-40ad-a366-6b3e36634fdb",
-     exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
-     set: 1,
-     weight: null,
-     reps: null
+     reps: null,
+     completedDate: Date.now().toString()
     },
    ]
    const expectedError = "Workout Statistic data is missing."

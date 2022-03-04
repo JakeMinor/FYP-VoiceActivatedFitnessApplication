@@ -10,7 +10,9 @@
   */
  async findAll(filter) {
   return this.model.findAll(filter)
-    .catch(error => {return error})
+    .catch(error => {
+     console.log(error)
+     return error})
  }
 
  /**
