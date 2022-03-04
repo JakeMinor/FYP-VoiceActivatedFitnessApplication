@@ -2,11 +2,6 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Statistic extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Statistic.belongsTo(models.Workouts, { foreignKey: { name: 'workoutId', allowNull: false }})
       Statistic.belongsTo(models.Exercises, { foreignKey: {name: 'exerciseId', allowNull: false }})
@@ -17,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       isUUID: 4
     },
     workoutId: {

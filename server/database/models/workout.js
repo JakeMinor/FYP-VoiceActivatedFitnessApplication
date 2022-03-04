@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Workout extends Model {
     static associate(models) {
       Workout.belongsToMany(models.Exercises, {through: "Workouts_Exercises"})
-      Workout.hasMany(models.Statistics)
+      Workout.hasMany(models.Statistics, {foreignKey: {name: 'workoutId', allowNull: false}})
     }
   }
   Workout.init({

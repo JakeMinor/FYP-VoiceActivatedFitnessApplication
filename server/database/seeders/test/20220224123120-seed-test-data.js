@@ -6,13 +6,16 @@ module.exports = {
      * Create test data to be seeded.
      */
     const testEquipment = [{
+      id: "f27d3f97-c9e2-4c18-8ecd-184d26dc9251",
       name: "Test Equipment"
     }]
     const testExercises = [{
+      id: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
       name: "Test Exercise",
       information: "Test Information"
     }]
     const testWorkouts = [{
+      id: "c98b0aa7-73ef-40ad-a366-6b3e36634fdb",
       name: "Test Workout"
     }]
     
