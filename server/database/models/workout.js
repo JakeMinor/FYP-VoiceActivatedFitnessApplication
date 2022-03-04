@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Workout extends Model {
     static associate(models) {
       Workout.belongsToMany(models.Exercises, {through: "Workouts_Exercises"})
+      Workout.hasMany(models.Statistics)
     }
   }
   Workout.init({
@@ -11,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4
+      defaultValue: DataTypes.UUIDV4,
+      isUUID: 4
     },
     name: {
       type: DataTypes.STRING,
