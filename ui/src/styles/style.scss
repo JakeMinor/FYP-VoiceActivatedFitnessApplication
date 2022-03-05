@@ -1,0 +1,14 @@
+﻿@media (min-width: 1200px) {
+  .container {
+    max-width: 75% !important;
+  }
+}
+
+.nav-item {
+  a {
+    color: black !important;
+  }
+}
+
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-vue/src/index.scss';
