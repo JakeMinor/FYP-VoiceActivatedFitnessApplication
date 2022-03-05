@@ -8,9 +8,12 @@
       </b-card>
       <b-card class="w-50">
         <Title title="Recently Completed Workouts" type="Subtitle" />
+        <div v-for="(workout, index) in this.$data.workouts" :key="workout[0].completedDate">
+          <template v-if="index <= 5"></template>
+          <recently-completed-workout v-else :workout-name="workout[0].Workout.name" :completed-date="workout[0].completedDate" />
+        </div>
       </b-card>
     </div>
-
   </div>
 </template>
 
@@ -19,16 +22,20 @@ import Vue from 'vue';
 import Title from "../components/Title.vue";
 import api from '../api/api'
 import WorkoutFrequencyCalendar from "../components/WorkoutFrequencyCalendar.vue";
+import RecentlyCompletedWorkout from "@/components/RecentlyCompletedWorkout";
 
 export default Vue.extend({
   name: "Dashboard",
-  components: { Title, WorkoutFrequencyCalendar },
+  components: { Title, WorkoutFrequencyCalendar, RecentlyCompletedWorkout },
   data() {
     return {
-      workouts: []
+      workouts: null // The users workouts.
     }
   },
-  async created() {
+  /**
+   * Gets the users workout statistics from the api.
+   */
+  async mounted() {
     this.$data.workouts = await api.getWorkoutStatistics()
   }
 })

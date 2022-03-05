@@ -10,5 +10,15 @@
   }
 }
 
+.navbar-links {
+  display: flex;
+  background-color: white;
+  padding: 0.25rem 1rem;
+
+  a {
+    color: black !important;
+  }
+}
+
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';

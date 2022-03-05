@@ -13,6 +13,10 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+    <div class="navbar-links">
+      <router-link class="ml-1 mr-3 align-self-center" to="/">Dashboard</router-link>
+      <router-link class="ml-1 mr-3 align-self-center" to="/">Completed Workouts</router-link>
+    </div>
   </div>
 </template>
 

@@ -19,7 +19,6 @@ class Api {
       email: response.data.email,
       name: response.data.name
      }
-     console.log(user)
      store.dispatch('setUser', { token: token, user: user})
     }).catch(error => {
       this.$bvToast.toast(error.message, {
