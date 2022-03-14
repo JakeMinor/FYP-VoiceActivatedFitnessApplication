@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Dashboard from "@/views/Dashboard";
 import store from '../store/index';
 import api from '@/api/api'
+import CompletedWorkouts from "@/views/CompletedWorkouts";
 
 Vue.use(VueRouter)
 
@@ -11,6 +12,11 @@ const routes = [
     path: '/',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/completed-workouts',
+    name: 'Completed Workouts',
+    component: CompletedWorkouts
   }
 ]
 

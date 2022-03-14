@@ -15,7 +15,7 @@
     </b-navbar>
     <div class="navbar-links">
       <router-link class="ml-1 mr-3 align-self-center" to="/">Dashboard</router-link>
-      <router-link class="ml-1 mr-3 align-self-center" to="/">Completed Workouts</router-link>
+      <router-link class="ml-1 mr-3 align-self-center" :to="{ name: 'Completed Workouts'}">Completed Workouts</router-link>
     </div>
   </div>
 </template>
@@ -26,6 +26,9 @@ import store from '../store/index'
 export default Vue.extend({
   name: "NavigationBar",
   computed: {
+    /**
+     * Gets the users username from the store.
+     */
     username() {
       return store.getters.user?.email ?? ""
     }

@@ -14,17 +14,22 @@ import { formatDate } from '@/helper';
 export default Vue.extend({
   name: "RecentlyCompletedWorkout",
   props: {
-    workoutName: {
+    // The name of the workout.
+    workoutName: { 
       type: String,
       required: true,
       default: ""
     },
+    // The date the workout was completed.
     completedDate: {
       type: String,
       required: true
     }
   },
   methods: {
+    /**
+     * The format date method from helper.js.
+     */
     formatDate
   }
 })
