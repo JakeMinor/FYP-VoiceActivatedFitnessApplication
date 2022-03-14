@@ -1,5 +1,6 @@
 ﻿import axios from 'axios'
 import store from '../store/index'
+import { throwToast } from "@/helper";
 /**
  * Intercepts an axios requests and throws a Javascript error if the Axios requests reruns an error.
  */
@@ -20,13 +21,7 @@ class Api {
       name: response.data.name
      }
      store.dispatch('setUser', { token: token, user: user})
-    }).catch(error => {
-      this.$bvToast.toast(error.message, {
-       title: 'Error',
-       variant: 'danger',
-       solid: true
-      })
-    })
+    }).catch(error => throwToast(error.message))
  }
  
  async authenticate() {
@@ -35,13 +30,7 @@ class Api {
  
  async getWorkoutStatistics() {
   return (await axios.get(`${this.baseUrl}/statistic/`, {withCredentials: true})
-   .catch(error => {
-     this.$bvToast.toast(error.message, {
-      title: 'Error',
-      variant: 'danger',
-      solid: true
-     })
-  })).data
+   .catch(error => throwToast(error.message))).data
  }
 }
 
