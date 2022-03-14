@@ -26,6 +26,34 @@ describe('Workout Statistics Tests', () => {
  })
 
  /**
+  * Tests for the GetCompletedWorkouts controller.
+  */
+ context('Get Completed Workouts', () => {
+  it('Should return 200 and the completed workouts.', async () => {
+   // Arrange
+   const expectedUser = 'TestUser@email.com'
+   const expectedReps = 15
+   const expectedSets = 1
+   const expectedWeights = 0
+   const expectedExerciseName = "Test Exercise"
+   const expectedWorkoutName = "Test Workout"
+
+   // Act
+   const result = await chai.request(server).get(`${baseUrl}`).send()
+   const stats = result.body[Object.keys(result.body)[0]]
+   
+   // Assert
+   result.should.have.status(200)
+   stats[0].user.should.equal(expectedUser)
+   stats[0].set.should.equal(expectedSets)
+   stats[0].weight.should.equal(expectedWeights)
+   stats[0].reps.should.equal(expectedReps)
+   stats[0].Workout.name.should.equal(expectedWorkoutName)
+   stats[0].Exercise.name.should.equal(expectedExerciseName)
+  })
+ })
+
+ /**
   * Tests for the CreateWorkoutStatistics Controller.
   */
  context('Create Workout Statistics', () => {
