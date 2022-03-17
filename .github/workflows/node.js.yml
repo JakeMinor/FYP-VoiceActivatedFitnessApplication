@@ -102,16 +102,6 @@ jobs:
         run: |
           cd ui
           npm run test:unit
-      
-      # Run the web GUI tests
-      - name: Run e2e tests
-        uses: cypress-io/github-action@v3 #Specify cypress will be used.
-        with:
-          browser: chrome #Specify the browser used should be chrome.
-          working-directory: ui #Specify the working directory.
-          config-file: cypress.json #Specify the name of the cypress config file.
-          start: npm run serve #Run the UI project.
-          wait-on: 'http://localhost:8080' #Wait until localhost:8080 has fully served before running tests.
 
       # Save a copy of the coverage report as an artifact to use later in the pipeline.
       - uses: actions/upload-artifact@master
