@@ -14,7 +14,11 @@
       </b-card>
       <b-card class="ml-2 w-75">
         <Title title="Exercises Performed" type="Subtitle" />
-        <b-table :fields="tableHeaders" :items="statistics">
+        <b-table :fields="tableHeaders" :items="filteredItems" show-empty empty-text="No statistics could be found.">
+          <template #head(Exercise.name)>
+            Exercise Name
+            <b-input id="nameFilter" v-model="filters.name" size="sm" class="mt-2" placeholder="Exercise Name..."></b-input>
+          </template>
         </b-table>
       </b-card>
     </div>
@@ -32,7 +36,10 @@ export default Vue.extend({
   components: { Title },
   data() {
     return {
-      statistics: null
+      statistics: null,
+      filters: {
+        name: ''
+      }
     }
   },
   computed: {
@@ -44,6 +51,9 @@ export default Vue.extend({
         { key: "time", sortable: true },
         { key: "weight", sortable: true }
       ]
+    },
+    filteredItems() {
+      return this.$data.statistics.filter((statistic) => statistic.Exercise.name.includes(this.filters.name))
     },
     totalWeightLifted() {
       return this.statistics.map(statistic => statistic.weight).reduce((a, b) => a + b, 0);
