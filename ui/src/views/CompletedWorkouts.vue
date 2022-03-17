@@ -27,8 +27,8 @@
       <template #cell(completedDate)="cell">
         {{ formatDate(cell.item.completedDate) }}
       </template>
-      <template #cell(actions)>
-        <b-link>View Details</b-link>
+      <template #cell(actions)="cell">
+        <b-link :to="{name: 'Workout Statistics', params: { date: cell.item.completedDate }}">View Details</b-link>
       </template>
     </b-table>
   </div>
@@ -61,7 +61,6 @@ export default Vue.extend({
   methods: {
     formatDate,
     resetFilters() {
-      
       this.filters.name = ''
       this.filters.exercisesCompleted = ''
       this.filters.completedDate = ''
@@ -87,7 +86,7 @@ export default Vue.extend({
    * Gets the users workout statistics from the api.
    */
   async mounted() {
-    const workoutData = await api.getWorkoutStatistics()
+    const workoutData = await api.getAllWorkoutStatistics()
     for(const date in workoutData){
       const workout = workoutData[date][0]
       this.$data.workouts.push({

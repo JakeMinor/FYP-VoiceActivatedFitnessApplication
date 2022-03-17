@@ -28,9 +28,14 @@ class Api {
   window.location.href = `${this.baseUrl}/auth/login`
  }
  
- async getWorkoutStatistics() {
+ async getAllWorkoutStatistics() {
   return (await axios.get(`${this.baseUrl}/statistic/`, {withCredentials: true})
    .catch(error => throwToast(error.message))).data
+ }
+ 
+ async getWorkoutStatistics(date) {
+  return (await axios.get(`${this.baseUrl}/statistic/${date}`, {withCredentials: true, })
+    .catch(error => throwToast(error.message))).data
  }
 }
 

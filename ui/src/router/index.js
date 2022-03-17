@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import Dashboard from "@/views/Dashboard";
 import store from '../store/index';
 import api from '@/api/api'
+import Error from '@/views/Error'
 import CompletedWorkouts from "@/views/CompletedWorkouts";
+import WorkoutStatistics from "@/views/WorkoutStatistics";
 
 Vue.use(VueRouter)
 
@@ -17,6 +19,23 @@ const routes = [
     path: '/completed-workouts',
     name: 'Completed Workouts',
     component: CompletedWorkouts
+  },
+  {
+    path: '/:date/statistics',
+    name: "Workout Statistics",
+    component: WorkoutStatistics
+  },
+  {
+    path: '/error',
+    name: 'Error',
+    component: Error
+  },
+  /**
+   * Bounces any unrecognised routes to the error page.
+   */
+  {
+    path: '*',
+    redirect: '/error'
   }
 ]
 
