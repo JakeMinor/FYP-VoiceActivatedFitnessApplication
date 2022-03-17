@@ -1,5 +1,6 @@
 ﻿const httpError = require("http-errors")
 const DataLayer = require('../datalayer/datalayer')
+const Utilities = require('../utilities')
 const Workout = require('../database/models')['Workouts']
 const Exercise = require('../database/models')['Exercises']
 const dataLayer = new DataLayer('Statistics')
@@ -22,13 +23,26 @@ module.exports = class StatisticBusiness {
  }
  
  async getWorkoutStatistics(user, completedDate) {
-  return await dataLayer.findAll({
+  // Check the date string is a valid date.
+  Utilities.isValidDate(completedDate)
+  
+  // Get the stats for the workout from the database.
+  const stats = await dataLayer.findAll({
    where: {user: user, completedDate: completedDate},
    attributes: ['id', 'user', 'set', 'weight', 'reps', 'completedDate'], // Remove the exerciseId and workoutId from the statistics model.
    include: [Workout, Exercise] // Populate the Workout and Exercise data by the Ids on the statistics model.
   }).catch(error => {
    throw httpError(500, error.message)
   }) //Catch any Database errors.
+  
+  // Check if the stats are empty.
+  if(stats.length === 0){
+   // Return a 404 telling the user there are no stats.
+   throw httpError(404, "There are no stats for the requested workout.")
+  } else {
+   // Return the stats.
+   return stats
+  }
  }
  
  async createWorkoutStatistics(user, workoutStatistics) {

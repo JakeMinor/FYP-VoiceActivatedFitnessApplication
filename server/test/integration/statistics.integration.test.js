@@ -6,7 +6,7 @@ chai.use(require('chai-http'))
 
 let server
 
-const baseUrl = '/v1/statistic/'
+const baseUrl = '/v1/statistic'
 
 describe('Workout Statistics Tests', () => {
  beforeEach(() => {
@@ -53,6 +53,60 @@ describe('Workout Statistics Tests', () => {
   })
  })
 
+ /**
+  * Tests for the getWorkoutStatistics controller.
+  */
+ context('Get Workout statistics', () => {
+  it('Should return 200 and the stats for the specified workout.', async () => {
+   // Arrange
+   const completedDate = "2022-03-05T20:13:00.670Z"
+   const expectedUser = 'TestUser@email.com'
+   const expectedReps = 15
+   const expectedSets = 1
+   const expectedWeights = 0
+   const expectedExerciseName = "Test Exercise"
+   const expectedWorkoutName = "Test Workout"
+
+   // Act
+   const result = await chai.request(server).get(`${baseUrl}/${completedDate}`).send()
+
+   // Assert
+   result.should.have.status(200)
+   result.body.should.be.lengthOf(1)
+   result.body[0].completedDate.should.equal(completedDate)
+   result.body[0].user.should.equal(expectedUser)
+   result.body[0].set.should.equal(expectedSets)
+   result.body[0].weight.should.equal(expectedWeights)
+   result.body[0].reps.should.equal(expectedReps)
+   result.body[0].Workout.name.should.equal(expectedWorkoutName)
+   result.body[0].Exercise.name.should.equal(expectedExerciseName)
+  })
+ 
+  it('Should return 400 and an error message if the date string isnt valid.', async () => {
+   // Arrange
+   const invalidDate = "INVALIDDATESTRING"
+
+   // Act
+   const result = await chai.request(server).get(`${baseUrl}/${invalidDate}`).send()
+
+   // Assert
+   result.should.have.status(400)
+   result.body.message.should.equal("Date string is not valid.")
+  })
+  
+  it('Should return 404 and no stats for a specified workout which doesnt exist.', async () => {
+   // Arrange
+   const completedDate = "2022-03-01T20:13:00.670Z"
+
+   // Act
+   const result = await chai.request(server).get(`${baseUrl}/${completedDate}`).send()
+
+   // Assert
+   result.should.have.status(404)
+   result.body.message.should.equal("There are no stats for the requested workout.")
+  })
+ })
+ 
  /**
   * Tests for the CreateWorkoutStatistics Controller.
   */
