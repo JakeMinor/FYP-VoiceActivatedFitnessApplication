@@ -44,6 +44,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.NUMBER,
       allowNull: false,
       isInt: true
+    },
+    completedDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      isDate: true
     }
   }, {
     sequelize,

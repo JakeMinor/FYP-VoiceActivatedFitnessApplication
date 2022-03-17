@@ -7,6 +7,6 @@ const workoutBusiness = new WorkoutBusiness()
  */
 exports.getWorkoutByName = async (request, response) => {
  workoutBusiness.getWorkoutByName(request.params.name)
-   .then((data) => { response.status(200).send(data) })
+   .then((workout) => { response.status(200).send(workout) })
    .catch((error) => { response.status(error.status).send({message: error.message}) })
 }

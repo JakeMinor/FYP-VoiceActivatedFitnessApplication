@@ -18,14 +18,24 @@ module.exports = {
       id: "c98b0aa7-73ef-40ad-a366-6b3e36634fdb",
       name: "Test Workout"
     }]
+    const testStatistics = [{
+      workoutId: "c98b0aa7-73ef-40ad-a366-6b3e36634fdb",
+      user: "TestUser@email.com",
+      exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
+      set: 1,
+      weight: 0,
+      reps: 15,
+      completedDate: new Date()
+    }]
     
     /**
-     * Seed Equipment/Exercises/Workouts then return an array of the seeded IDs to be used in the association table.
+     * Seed Equipment/Exercises/Workouts/Statistics then return an array of the seeded IDs to be used in the association table.
      */
     const seededEquipment = await queryInterface.bulkInsert('Equipments', testEquipment, {returning: ["id", "name"]})
     const seededExercises = await queryInterface.bulkInsert('Exercises', testExercises, {returning: ["id", "name"]})
     const seededWorkouts = await queryInterface.bulkInsert('Workouts', testWorkouts, {returning: ["id", "name"]})
-
+    await queryInterface.bulkInsert('Statistics', testStatistics, {})
+    
     /**
      * Create object arrays containing all the related data.
      */
@@ -60,6 +70,7 @@ module.exports = {
     await queryInterface.bulkDelete('Workouts', null, {});
     await queryInterface.bulkDelete('Equipments', null, {});
     await queryInterface.bulkDelete('Exercises', null, {});
+    await queryInterface.bulkDelete('Statistics', null, {});
   }
 };
 
