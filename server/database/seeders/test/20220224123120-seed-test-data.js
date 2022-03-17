@@ -25,7 +25,7 @@ module.exports = {
       set: 1,
       weight: 0,
       reps: 15,
-      completedDate: new Date()
+      completedDate: "2022-03-05T20:13:00.670Z"
     }]
     
     /**

@@ -2,7 +2,7 @@
   <div class="d-flex border p-2 mb-2">
     <div class="m-auto">{{ workoutName }} on {{ formatDate(completedDate) }}</div>
     <div class="ml-auto">
-      <b-button variant="primary">View Details</b-button>
+      <b-button variant="primary" :to="{name: 'Workout Statistics', params: { date: completedDate }}">View Details</b-button>
     </div>
   </div>
 </template>

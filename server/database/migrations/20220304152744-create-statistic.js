@@ -39,8 +39,7 @@ module.exports = {
             type: Sequelize.INTEGER
           },
           reps: {
-            type: Sequelize.INTEGER,
-            allowNull: false
+            type: Sequelize.INTEGER
           },
           createdAt: {
             allowNull: false,

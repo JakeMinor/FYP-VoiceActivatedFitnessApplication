@@ -36,7 +36,7 @@ export default Vue.extend({
    * Gets the users workout statistics from the api.
    */
   async mounted() {
-    this.$data.workouts = await api.getWorkoutStatistics()
+    this.$data.workouts = await api.getAllWorkoutStatistics()
   }
 })
 </script>
