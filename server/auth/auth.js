@@ -6,7 +6,7 @@ const LoginWithAmazon = require('passport-amazon').Strategy // Get the strategy 
 passport.use('amazon', new LoginWithAmazon({
    clientID: process.env.CLIENT_ID,
    clientSecret: process.env.CLIENT_SECRET,
-   callbackURL: process.env.CALLBACK_URL
+   callbackURL: process.env.NODE_ENV === 'production' ? process.env.PROD_CALLBACK_URL : process.env.DEV_CALLBACK_URL
   }, 
   // Return the Amazon access token, refresh token and profile.
   (accessToken, refreshToken, profile, done) => {
