@@ -11,7 +11,7 @@ axios.interceptors.response.use(response => response, (error) => {
 
 class Api {
  constructor() {
-  this.baseUrl = "http://localhost:3000/v1"
+  this.baseUrl = process.env.NODE_ENV === "production" ? "https://fyp-voice-activated-fitness.herokuapp.com/v1" : "http://localhost:3000/v1"
  }
  
  async getUser(token) {
