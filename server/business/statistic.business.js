@@ -12,7 +12,6 @@ module.exports = class StatisticBusiness {
    attributes: ['id', 'user', 'set', 'weight', 'reps', 'completedDate'], // Remove the exerciseId and workoutId from the statistics model.
    include: [ Workout, Exercise] // Populate the Workout and Exercise data by the Ids on the statistics model.
   }).catch(error => {
-   console.log("ERROR", error)
    throw httpError(500, error.message)
   }) //Catch any Database errors.
 
@@ -65,7 +64,8 @@ module.exports = class StatisticBusiness {
   return dataLayer.bulkCreate(statistics)
     // Catch any Database errors.
     .catch(error => {
-      throw httpError(400, error.message)
+     console.log("ERROR", error)
+     throw httpError(400, error.message)
      })
  }
 }
@@ -77,7 +77,7 @@ module.exports = class StatisticBusiness {
  */
 function validateWorkoutStatistics(workoutStatistics) {
  workoutStatistics.every(statistic => {
-  if (!(statistic.workoutId && statistic.exerciseId && statistic.set && statistic.reps)) {
+  if (!(statistic.workoutId && statistic.exerciseId && statistic.set)) {
    throw httpError(400, 'Workout Statistic data is missing.')
   }
  })
