@@ -15,9 +15,8 @@ router.get('/login', passport.authenticate("amazon", {scope: ['profile']}), (req
  */
 router.get('/callback', (req, res, next) => {
  passport.authenticate('amazon', {failureRedirect: '/login'}, (err, user, amazonAccessToken) => {
-  req.user = user // Sets the user information in the session.
   const returnUrl = process.env.NODE_ENV === 'production' ? process.env.PROD_UI : process.env.DEV_UI
-  res.cookie('access_token', amazonAccessToken).redirect(returnUrl) // Redirects the user in to the UI.
+  res.cookie('access_token', amazonAccessToken, { sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', secure: process.env.NODE_ENV === 'production' }).redirect(returnUrl) // Redirects the user in to the UI.
  })(req, res, next)
 })
 
