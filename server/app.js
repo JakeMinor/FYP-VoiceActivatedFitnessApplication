@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({origin: ["http://localhost:8080", "http://localhost:3000", "https://fyp-voice-activated-fitness.herokuapp.com", "https://jakeminor.github.io/FYP-VoiceActivatedFitnessApplication"], credentials: true}))
+app.use(cors({origin: ["http://localhost:8080", "http://localhost:3000", "https://fyp-voice-activated-fitness.herokuapp.com", "https://jakeminor.github.io"], credentials: true}))
 /**
  * Configure the authentication session to store the logged in users information.
  */
