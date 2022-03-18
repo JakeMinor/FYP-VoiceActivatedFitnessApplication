@@ -26,6 +26,8 @@ module.exports = {
 
 async function verifyToken(request) {
  try {
+  console.log(request)
+  console.log(request.headers)
   const token = request.headers.cookie.split("=")[1]
   
   return (await axios.get(`https://api.amazon.com/user/profile?access_token=${token}`)).data ?? null
