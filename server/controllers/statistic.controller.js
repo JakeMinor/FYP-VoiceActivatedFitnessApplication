@@ -34,6 +34,7 @@ exports.getWorkoutStatistics = async (request, response) => {
  * @returns A 201 response and the inserted workout statistics.
  */
 exports.createWorkoutStatistics = async (request, response) => {
+ console.log(request.body)
  statisticBusiness.createWorkoutStatistics(request.user.email, request.body)
    .then((createdStatistics) => {response.status(201).send(createdStatistics)})
    .catch((error) => {
