@@ -11,6 +11,7 @@ exports.getAllWorkoutStatistics = async (request, response) => {
     response.status(200).send(completedWorkouts)
    })
    .catch((error) => {
+    console.log("ERROR", error)
     response.status(error.status).send({message: error.message})
    })
 }
