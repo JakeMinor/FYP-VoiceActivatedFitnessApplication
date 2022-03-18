@@ -164,11 +164,19 @@ jobs:
           npm ci 
           npm run build --if-present
       
-      - name: Deploy UI
-        uses: JamesIves/github-pages-deploy-action@v4.2.3
+#      - name: Deploy UI
+#        uses: JamesIves/github-pages-deploy-action@v4.2.3
+#        with:
+#          branch: gh-pages
+#          folder: ui/dist
+      - name: Deploy UUI
+        uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
-          branch: gh-pages
-          folder: ui/dist
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}} # Get the API key from Github Secrets.
+          heroku_app_name: "fyp-voice-activated-fitness" # Specify the name of the app to deploy to.
+          heroku_email: "b8015484@my.shu.ac.uk" # The email of the account to log into.
+          appdir: "ui" # The sub directory to deploy
+          
           
       - name: Deploy Server
         uses: AkhileshNS/heroku-deploy@v3.12.12
