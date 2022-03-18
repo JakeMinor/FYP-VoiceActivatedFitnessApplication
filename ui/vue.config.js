@@ -1,6 +1,5 @@
-﻿module.exports = {
- devServer: {
-  host: "0.0.0.0"
- },
- publicPath: process.env.NODE_ENV === "production" ? "/FYP-VoiceActivatedFitnessApplication/" : "/",
+﻿const path = require('path')
+
+module.exports = {
+ outputDir: path.resolve(__dirname, '../server/public')
 }

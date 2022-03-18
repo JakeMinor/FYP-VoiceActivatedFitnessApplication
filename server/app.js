@@ -18,13 +18,15 @@ app.use(session({secret: '1233', cookie: { secure: process.env.NODE_ENV === 'pro
 app.use(passport.initialize({}))
 app.use(passport.session({secret: '1233'}))
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 /**
  * Configure routes.
  */
 require('./router/router.config')(app)
 require('./auth/auth')
+
+app.use(express.static(path.join(__dirname, '/public/')));
+
+app.get(/.*/, (req, res) => res.sendFile(path.join(__dirname + '/public/index.html')));
 
 // catch 404 and forward to error handler.
 app.use(function(req, res, next) {
