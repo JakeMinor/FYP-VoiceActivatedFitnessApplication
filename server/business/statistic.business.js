@@ -12,6 +12,7 @@ module.exports = class StatisticBusiness {
    attributes: ['id', 'user', 'set', 'weight', 'reps', 'completedDate'], // Remove the exerciseId and workoutId from the statistics model.
    include: [ Workout, Exercise] // Populate the Workout and Exercise data by the Ids on the statistics model.
   }).catch(error => {
+   console.log("ERROR", error)
    throw httpError(500, error.message)
   }) //Catch any Database errors.
 

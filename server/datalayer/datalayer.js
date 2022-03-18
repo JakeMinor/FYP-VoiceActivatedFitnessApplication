@@ -32,6 +32,8 @@
   */
  async bulkCreate(data) {
   return this.model.bulkCreate(data)
-    .catch(error => {return error})
+    .catch(error => {
+     console.log("ERROR", error)
+     return error})
  }
 }
