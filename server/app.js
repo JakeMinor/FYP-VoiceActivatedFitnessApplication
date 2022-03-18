@@ -14,9 +14,8 @@ app.use(cors({origin: ["http://localhost:8080", "http://localhost:3000", "https:
 /**
  * Configure the authentication session to store the logged in users information.
  */
-app.set('trust proxy', 1);
-app.use(session({secret: '1233', cookie: { secure: process.env.NODE_ENV === "production" ? true : false, sameSite: 'lax' }}))
-app.use(passport.initialize())
+app.use(session({secret: '1233', cookie: { secure: process.env.NODE_ENV === 'production' ? true : false }}))
+app.use(passport.initialize({}))
 app.use(passport.session({secret: '1233'}))
 
 app.use(express.static(path.join(__dirname, 'public')));

@@ -2,6 +2,14 @@
 const passport = require('passport')
 const LoginWithAmazon = require('passport-amazon').Strategy // Get the strategy needed to authenticate with Amazon (OAuth 2.0)
 
+passport.serializeUser(function (user, done) {
+ done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+ done(null, obj);
+});
+
 // Tells passport to use the Login With Amazon companion app security profile.
 passport.use('amazon', new LoginWithAmazon({
    clientID: process.env.CLIENT_ID,
