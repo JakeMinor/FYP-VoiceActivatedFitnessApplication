@@ -47,13 +47,13 @@ module.exports = class StatisticBusiness {
  
  async createWorkoutStatistics(user, workoutStatistics) {
   // Format the workout statistics to be inserted into the database.
-  const statistics = workoutStatistics.map((stat) => ({
-   workoutId: stat.workoutId,
+  const statistics = workoutStatistics.exercises.map((stat) => ({
+   workoutId: workoutStatistics.workoutId,
    user: user,
    exerciseId: stat.exerciseId,
-   set: stat.set,
+   set: stat.setNumber,
    weight: stat.weight,
-   reps: stat.reps,
+   reps: stat.completedReps,
    completedDate: Date.now()
   }))
   
