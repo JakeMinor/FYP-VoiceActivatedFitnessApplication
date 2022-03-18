@@ -212,28 +212,5 @@ describe('Workout Statistics Tests', () => {
    result.should.have.status(400)
    result.body.message.should.be.equal(expectedError)
   })
-
-  it('Should return 400 and an error message if the rep number is missing.', async () => {
-   // Arrange
-   const workoutStatistics = [
-    {
-     workoutId: "c98b0aa7-73ef-40ad-a366-6b3e36634fdb",
-     exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
-     set: 1,
-     weight: null,
-     reps: null,
-     completedDate: Date.now().toString()
-    },
-   ]
-   const expectedError = "Workout Statistic data is missing."
-
-
-   // Act
-   const result = await chai.request(server).post(`${baseUrl}`).send(workoutStatistics)
-
-   // Assert
-   result.should.have.status(400)
-   result.body.message.should.be.equal(expectedError)
-  })
  })
 })
