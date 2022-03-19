@@ -24,6 +24,16 @@
  }
 
  /**
+  * Create a singular item in the database.
+  * @param data - the data which is to be inserted.
+  * @returns the created data.
+  */
+ async createOne(data) {
+  return this.model.create(data)
+    .catch(error => {return error})
+ }
+
+ /**
   * Create multiple items in the database.
   * @param data - the data which is to be inserted.
   * @returns the created data.
