@@ -160,6 +160,7 @@ jobs:
       - name: Package UI
         run: |
           cd ui
+          npm ci
           npm run build
       
       - name: Deploy to heroku
