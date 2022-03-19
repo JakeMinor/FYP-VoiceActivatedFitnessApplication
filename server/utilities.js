@@ -17,12 +17,11 @@ module.exports = class Utilities {
 
  /**
   * Checks if the workout statistics exist in the database.
-  * @param completedDate - The Date the workout was completed.
-  * @param user - The user who completed the workout.
+  * @param id - The ID of the statistic.
   * @returns 404 Not Found if the statistics aren't found.
   */
- static async doesStatisticExist(completedDate, user) {
-  const stats = await dataLayer.findAll({where: {user: user, completedDate: completedDate}})
+ static async doesStatisticExist(id) {
+  const stats = await dataLayer.findAll({where: {id: id}})
 
   // Check if the stats are empty.
   if (stats.length === 0) {

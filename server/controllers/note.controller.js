@@ -2,7 +2,7 @@
 const noteBusiness = new NoteBusiness()
 
 exports.createNote = async (request, response) => {
- noteBusiness.createNote(request.user.email, request.params.date, request.body)
+ noteBusiness.createNote(request.params.id, request.body)
    .then((statistics) => {
     response.status(201).send(statistics)
    })

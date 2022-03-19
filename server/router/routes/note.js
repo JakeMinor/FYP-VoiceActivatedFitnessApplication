@@ -6,6 +6,6 @@ const isAuthenticated = require('../router.middleware').isAuthenticated
 /**
  * Create a note.
  */
-router.post('/:date', isAuthenticated, noteController.createNote)
+router.post('/:id', isAuthenticated, noteController.createNote)
 
 module.exports = router
