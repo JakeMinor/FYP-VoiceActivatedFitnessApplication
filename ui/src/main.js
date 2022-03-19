@@ -9,14 +9,14 @@ import './validation'
 
 Vue.config.productionTip = false
 
+// Add Bootstrap and VCalendar globally.
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(VCalendar, {
   componentPrefix: 'vc'
 })
 
-
-
+// Create a new Vue instance.
 new Vue({
   router,
   store,

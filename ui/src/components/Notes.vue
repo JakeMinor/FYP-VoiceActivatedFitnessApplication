@@ -12,10 +12,10 @@
       </div>
       <ValidationObserver ref="observer">
         <div class="d-flex mt-2">
-          <custom-input id="Add-Note" label=""
+          <custom-input id="Add-Note" label="Note"
                         placeholder="Add Note..." rules="required"
                         v-model="note" class="mt-4" @keypress.enter="createNote"></custom-input>
-          <b-button class="h-50 mt-4 mb-3 ml-2" @click="createNote" variant="primary">Send</b-button>
+          <b-button class="h-50 mt-5 mb-3 ml-2" @click="createNote" variant="primary">Send</b-button>
         </div>
       </ValidationObserver>
     </div>
@@ -35,38 +35,42 @@ export default Vue.extend({
   components: { Title, ValidationObserver, CustomInput },
   data() {
     return {
-      completedWorkoutStatistics: null,
-      note: ''
+      completedWorkoutStatistics: null, // The statistics of the selected workout which notes will be attached to.
+      note: '' // The note which is to be added.
     }
   },
   props: {
-    completedWorkoutDate: String
+    completedWorkoutDate: String // The Date of the completed workout.
   },
   methods: {
     /**
-     * Format Date function from helper.js
+     * Format Date function from helper.js.
      */
     formatDate,
     /**
-     * Create a note for the workout
+     * Create a note for the workout.
      */
     async createNote() {
-      // Validate the note
+      // Validate the note.
       const valid = this.$refs.observer.validate()
       if(!valid) {
         return
       }
       
-      // Format the note
+      // Format the note.
       const noteToInsert = {
         note: this.note
       }
       
+      // Sned the note and Id of the statistic to the api.
       await api.createNote(noteToInsert, this.completedWorkoutStatistics[0].id)
+      
+      // Reset the note text.
       this.note = ''
     }
   },
   async created() {
+    // Get the completed workout statistics to add notes to.
     this.completedWorkoutStatistics = await api.getWorkoutStatistics(this.completedWorkoutDate)
   }
 })
