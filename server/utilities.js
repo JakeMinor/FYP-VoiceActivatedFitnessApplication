@@ -1,6 +1,6 @@
 ﻿const httpError = require("http-errors")
 const moment = require("moment")
-const DataLayer = require('../datalayer/datalayer')
+const DataLayer = require('./datalayer/datalayer')
 const dataLayer = new DataLayer('Statistics')
 
 module.exports = class Utilities {
