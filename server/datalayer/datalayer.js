@@ -10,7 +10,7 @@
   */
  async findAll(filter) {
   return this.model.findAll(filter)
-    .catch(error => {return error})
+    .catch(error => {throw error})
  }
 
  /**
@@ -20,7 +20,7 @@
   */
  async findOne(filter) {
   return this.model.findOne(filter) 
-    .catch(error => {return error})
+    .catch(error => {throw error})
  }
 
  /**
@@ -30,7 +30,7 @@
   */
  async createOne(data) {
   return this.model.create(data)
-    .catch(error => {return error})
+    .catch(error => {throw error})
  }
 
  /**
@@ -40,6 +40,6 @@
   */
  async bulkCreate(data) {
   return this.model.bulkCreate(data)
-    .catch(error => {return error})
+    .catch(error => {throw error})
  }
 }

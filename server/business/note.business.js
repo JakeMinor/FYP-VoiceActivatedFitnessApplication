@@ -4,20 +4,17 @@ const Utilities = require('../utilities')
 const dataLayer = new DataLayer('Notes')
 
 module.exports = class NoteBusiness {
- async createNote(user, statisticId, note) {
-  // Checks the date string is a valid date.
-  Utilities.isValidDate(completedDate)
-
+ async createNote(statisticId, data) {
   // Check that the statistic exists.
   await Utilities.doesStatisticExist(statisticId)
   
   // Check that the note contains data.
-  validateNote(note)
+  validateNote(data.note)
   
   // Format the note to be inserted into the database.
   const noteToInsert = {
    statisticId: statisticId,
-   note: note
+   note: data.note
   }
 
   // Insert the Note into the Notes table.
