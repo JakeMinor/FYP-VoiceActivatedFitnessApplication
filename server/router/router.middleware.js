@@ -30,7 +30,6 @@ async function verifyToken(request) {
   
   return(await axios.get(`https://api.amazon.com/user/profile?access_token=${token}`)).data ?? null
  } catch(error) {
-  console.log(error)
   throw httpError(401, 'The provided token is invalid or has expired.')
  }
 }

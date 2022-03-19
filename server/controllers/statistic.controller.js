@@ -37,7 +37,5 @@ exports.createWorkoutStatistics = async (request, response) => {
  console.log(request.body)
  statisticBusiness.createWorkoutStatistics(request.user.email, request.body)
    .then((createdStatistics) => {response.status(201).send(createdStatistics)})
-   .catch((error) => {
-    console.log("ERROR", error)
-    response.status(error.status).send({message: error.message})})
+   .catch((error) => {response.status(error.status).send({message: error.message})})
 }

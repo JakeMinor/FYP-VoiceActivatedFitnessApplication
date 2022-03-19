@@ -63,10 +63,7 @@ module.exports = class StatisticBusiness {
   // Insert the Statistics into the Statistics table.
   return dataLayer.bulkCreate(statistics)
     // Catch any Database errors.
-    .catch(error => {
-     console.log("ERROR", error)
-     throw httpError(400, error.message)
-     })
+    .catch(error => {throw httpError(400, error.message)})
  }
 }
 
