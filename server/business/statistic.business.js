@@ -1,6 +1,7 @@
 ﻿const httpError = require("http-errors")
 const DataLayer = require('../datalayer/datalayer')
 const Utilities = require('../utilities')
+const Note = require('../database/models')['Notes']
 const Workout = require('../database/models')['Workouts']
 const Exercise = require('../database/models')['Exercises']
 const dataLayer = new DataLayer('Statistics')
@@ -30,7 +31,7 @@ module.exports = class StatisticBusiness {
   const stats = await dataLayer.findAll({
    where: {user: user, completedDate: completedDate},
    attributes: ['id', 'user', 'set', 'weight', 'reps', 'completedDate'], // Remove the exerciseId and workoutId from the statistics model.
-   include: [Workout, Exercise] // Populate the Workout and Exercise data by the Ids on the statistics model.
+   include: [Workout, Exercise, Note] // Populate the Workout and Exercise data by the Ids on the statistics model.
   }).catch(error => {
    throw httpError(500, error.message)
   }) //Catch any Database errors.

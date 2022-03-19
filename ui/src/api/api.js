@@ -37,6 +37,11 @@ class Api {
   return (await axios.get(`${this.baseUrl}/statistic/${date}`, {withCredentials: true, })
     .catch(error => throwToast(error.message))).data
  }
+ 
+ async createNote(note, statisticId) {
+  return (await axios.post(`${this.baseUrl}/note/${statisticId}`, note, {withCredentials: true}))
+    .catch(error => throwToast(error.message)).data
+ }
 }
 
 export default new Api()
