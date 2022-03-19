@@ -50,10 +50,10 @@ router.beforeEach(async (to, from, next) => {
   if (document.cookie !== ''){
     // Get the token from the cookie.
     const token = document.cookie.split('=')[1]
-    
+
     // Get the authenticated users details from the amazon api.
     await api.getUser(token)
-    
+
     // If the user has been set, continue to the route.
     if(store.getters['user'] !== null) {
       next()

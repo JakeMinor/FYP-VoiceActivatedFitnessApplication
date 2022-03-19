@@ -47,13 +47,13 @@ module.exports = class StatisticBusiness {
  
  async createWorkoutStatistics(user, workoutStatistics) {
   // Format the workout statistics to be inserted into the database.
-  const statistics = workoutStatistics.map((stat) => ({
-   workoutId: stat.workoutId,
+  const statistics = workoutStatistics.exercises.map((stat) => ({
+   workoutId: workoutStatistics.workoutId,
    user: user,
    exerciseId: stat.exerciseId,
-   set: stat.set,
+   set: stat.setNumber,
    weight: stat.weight,
-   reps: stat.reps,
+   reps: stat.completedReps,
    completedDate: Date.now()
   }))
   
@@ -63,9 +63,7 @@ module.exports = class StatisticBusiness {
   // Insert the Statistics into the Statistics table.
   return dataLayer.bulkCreate(statistics)
     // Catch any Database errors.
-    .catch(error => {
-      throw httpError(400, error.message)
-     })
+    .catch(error => {throw httpError(400, error.message)})
  }
 }
 
@@ -76,7 +74,7 @@ module.exports = class StatisticBusiness {
  */
 function validateWorkoutStatistics(workoutStatistics) {
  workoutStatistics.every(statistic => {
-  if (!(statistic.workoutId && statistic.exerciseId && statistic.set && statistic.reps)) {
+  if (!(statistic.workoutId && statistic.exerciseId && statistic.set)) {
    throw httpError(400, 'Workout Statistic data is missing.')
   }
  })

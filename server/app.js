@@ -10,21 +10,23 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({origin: ["http://localhost:8080", "http://localhost:3000"], credentials: true}))
+app.use(cors({origin: ["http://localhost:8080", "http://localhost:3000", "https://fyp-voice-activated-fitness.herokuapp.com", "https://jakeminor.github.io"], credentials: true}))
 /**
  * Configure the authentication session to store the logged in users information.
  */
-app.use(session({name: 'amazon-auth-session', secret: '1233'}))
-app.use(passport.initialize())
-app.use(passport.session({name: 'amazon-auth-session', secret: '1233'}))
-
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret: '1233'}))
+app.use(passport.initialize({}))
+app.use(passport.session({secret: '1233'}))
 
 /**
  * Configure routes.
  */
 require('./router/router.config')(app)
 require('./auth/auth')
+
+app.use(express.static(path.join(__dirname, '/public/')));
+
+app.get(/.*/, (req, res) => res.sendFile(path.join(__dirname + '/public/index.html')));
 
 // catch 404 and forward to error handler.
 app.use(function(req, res, next) {

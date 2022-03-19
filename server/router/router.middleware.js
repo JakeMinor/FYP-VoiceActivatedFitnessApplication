@@ -28,7 +28,7 @@ async function verifyToken(request) {
  try {
   const token = request.headers.cookie.split("=")[1]
   
-  return (await axios.get(`https://api.amazon.com/user/profile?access_token=${token}`)).data ?? null
+  return(await axios.get(`https://api.amazon.com/user/profile?access_token=${token}`)).data ?? null
  } catch(error) {
   throw httpError(401, 'The provided token is invalid or has expired.')
  }
