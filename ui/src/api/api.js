@@ -39,8 +39,13 @@ class Api {
  }
  
  async createNote(note, statisticId) {
-  return (await axios.post(`${this.baseUrl}/note/${statisticId}`, note, {withCredentials: true}))
-    .catch(error => throwToast(error.message)).data
+  return (await axios.post(`${this.baseUrl}/note/${statisticId}`, note, {withCredentials: true})
+    .catch(error => throwToast(error.message))).data
+ }
+ 
+ async deleteNote(noteId) {
+  return (await axios.delete(`${this.baseUrl}/note/${noteId}`, {withCredentials: true})
+    .catch(error => throwToast(error.message)))
  }
 }
 
