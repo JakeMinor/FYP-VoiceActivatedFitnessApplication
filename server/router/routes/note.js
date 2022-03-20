@@ -8,4 +8,9 @@ const isAuthenticated = require('../router.middleware').isAuthenticated
  */
 router.post('/:id', isAuthenticated, noteController.createNote)
 
+/**
+ * Delete a note.
+ */
+router.delete('/:id', isAuthenticated, noteController.deleteNote)
+
 module.exports = router

@@ -24,6 +24,15 @@ module.exports = class NoteBusiness {
      throw httpError(400, error.message)
     })
  }
+ 
+ async deleteNote(noteId) {
+   // Checks that the note exists.
+   await doesNoteExist(noteId)
+  
+  // Delete the Note from the Notes table.
+   return dataLayer.deleteOne(noteId)
+     .catch(error => {throw httpError(500, error)})
+ }
 }
 
 /**
@@ -34,5 +43,21 @@ function validateNote(note) {
  if (!note) {
   // Return 400 Bad Request if the note is missing.
   throw httpError(400, 'Note is missing.')
+ }
+}
+
+/**
+ * Check that the note exists in the database.
+ * @param id - The ID of the note which is to be checked.
+ */
+async function doesNoteExist(id) {
+ const notes = await dataLayer.findAll({where: {id: id}}).catch(() => {
+  throw httpError(400, "The UUID provided is in an invalid format.")
+ })
+
+ // Check if the stats are empty.
+ if (notes.length === 0) {
+  // Return a 404 telling the user there are no stats.
+  throw httpError(404, "The note you have requested doesnt exist.")
  }
 }
