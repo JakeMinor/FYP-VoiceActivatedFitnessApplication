@@ -29,6 +29,12 @@ module.exports = {
       completedDate: "2022-03-05T20:13:00.670Z"
     }]
     
+    const testNotes = [{
+      id: "718b29ae-31b7-4e73-beb7-48553d65df65",
+      statisticId: "421b6080-cadc-4641-9689-f09835034318",
+      note: "Test Note"
+    }]
+    
     /**
      * Seed Equipment/Exercises/Workouts/Statistics then return an array of the seeded IDs to be used in the association table.
      */
@@ -36,6 +42,7 @@ module.exports = {
     const seededExercises = await queryInterface.bulkInsert('Exercises', testExercises, {returning: ["id", "name"]})
     const seededWorkouts = await queryInterface.bulkInsert('Workouts', testWorkouts, {returning: ["id", "name"]})
     await queryInterface.bulkInsert('Statistics', testStatistics, {})
+    await queryInterface.bulkInsert('Notes', testNotes, {})
     
     /**
      * Create object arrays containing all the related data.
