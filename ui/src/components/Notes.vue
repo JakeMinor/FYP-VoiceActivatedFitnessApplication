@@ -3,19 +3,26 @@
     <div>
       <Title title="Notes" type="Subtitle" />
       <div v-if="completedWorkoutStatistics">
-        <b-alert v-for="note in completedWorkoutStatistics[0].Notes" :key="note.id" variant="info" class="d-flex m-0 mb-2" show>
-          <div class="d-flex flex-column">
+        <div v-if="notes.length !== 0">
+          <b-alert v-for="note in notes" :key="note.id" variant="info" class="d-flex m-0 mb-2 align-items-center" show>
             <span>{{ note.note }}</span>
-          </div>
-          <strong class="ml-auto">{{ formatDate(note.createdAt) }}</strong>
-        </b-alert>
+            <strong class="ml-auto">{{ formatDate(note.createdAt) }}</strong>
+            <b-button variant="outline-primary" class="ml-2" @click="deleteNote(note.id)">
+              <b-icon icon="trash"></b-icon>
+            </b-button>
+          </b-alert>
+        </div>
+        <div v-else>
+          <b-alert class="text-center" variant="secondary" show>You have written no notes for this workout, why not add some!</b-alert>
+        </div>
       </div>
+      
       <ValidationObserver ref="observer">
-        <div class="d-flex mt-2">
+        <div class="d-flex">
           <custom-input id="Add-Note" label="Note"
                         placeholder="Add Note..." rules="required"
-                        v-model="note" class="mt-4" @keypress.enter="createNote"></custom-input>
-          <b-button class="h-50 mt-5 mb-3 ml-2" @click="createNote" variant="primary">Send</b-button>
+                        v-model="note" @keypress.enter="createNote"></custom-input>
+          <b-button class="h-50 mt-4 ml-2" @click="createNote" variant="primary">Send</b-button>
         </div>
       </ValidationObserver>
     </div>
@@ -42,6 +49,11 @@ export default Vue.extend({
   props: {
     completedWorkoutDate: String // The Date of the completed workout.
   },
+  computed: {
+    notes() {
+      return this.completedWorkoutStatistics[0].Notes
+    }
+  },
   methods: {
     /**
      * Format Date function from helper.js.
@@ -52,7 +64,7 @@ export default Vue.extend({
      */
     async createNote() {
       // Validate the note.
-      const valid = this.$refs.observer.validate()
+      const valid = await this.$refs.observer.validate()
       if(!valid) {
         return
       }
@@ -62,16 +74,37 @@ export default Vue.extend({
         note: this.note
       }
       
-      // Sned the note and Id of the statistic to the api.
+      // Send the note and Id of the statistic to the api.
       await api.createNote(noteToInsert, this.completedWorkoutStatistics[0].id)
       
       // Reset the note text.
       this.note = ''
+      this.$refs.observer.reset();
+      await this.getNotes()
+    },
+    async deleteNote(noteId) {
+      this.$bvModal.msgBoxConfirm("Are you sure you would like to delete this note?", {
+        title: "Delete Note",
+        okTitle: "Yes",
+        cancelTitle: "No",
+        footerClass: 'justify-content-between',
+        centered: true
+      }).then((answer) => {
+        if(answer === true){
+          api.deleteNote(noteId).then(() => {
+            this.getNotes()
+          })
+        }
+      }) 
+      .catch(() => {})
+    },
+    async getNotes() {
+      this.completedWorkoutStatistics = await api.getWorkoutStatistics(this.completedWorkoutDate)
     }
   },
   async created() {
     // Get the completed workout statistics to add notes to.
-    this.completedWorkoutStatistics = await api.getWorkoutStatistics(this.completedWorkoutDate)
+    await this.getNotes()
   }
 })
 </script>

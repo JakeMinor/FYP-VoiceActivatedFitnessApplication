@@ -19,7 +19,7 @@
   * @returns Model which matched the filter.
   */
  async findOne(filter) {
-  return this.model.findOne(filter) 
+  return this.model.findOne(filter)
     .catch(error => {throw error})
  }
 
@@ -40,6 +40,15 @@
   */
  async bulkCreate(data) {
   return this.model.bulkCreate(data)
+    .catch(error => {throw error})
+ }
+
+ /**
+  * Delete an item based on its ID.
+  * @param id - the ID of the item which is to be deleted.
+  */
+ async deleteOne(id) {
+  return this.model.destroy({where: {id: id}})
     .catch(error => {throw error})
  }
 }

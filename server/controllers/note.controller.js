@@ -10,3 +10,13 @@ exports.createNote = async (request, response) => {
    .then((note) => {response.status(201).send(note)})
    .catch((error) => {response.status(error.status).send({message: error.message})})
 }
+
+/**
+ * Delete a note attached to a workout.
+ * @returns A 200 response when the note has been deleted.
+ */
+exports.deleteNote = async (request, response) => {
+ noteBusiness.deleteNote(request.params.id)
+   .then(() => {response.status(200).send()})
+   .catch((error) => {response.status(error.status).send({message: error.message})})
+}

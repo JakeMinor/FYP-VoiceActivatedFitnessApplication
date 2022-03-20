@@ -26,6 +26,53 @@ describe('Notes Tests', () => {
  })
 
  /**
+  * Tests for the DeleteNote controller.
+  */
+ context('Delete Note', () => {
+  it('Should return 200 and delete the note.', async () => {
+   // Arrange
+   const noteId = "718b29ae-31b7-4e73-beb7-48553d65df65"
+   const statisticUrl = '/v1/statistic'
+   const completedWorkoutDate = "2022-03-05T20:13:00.670Z"
+
+   // Act
+   const result = await chai.request(server).delete(`${baseUrl}/${noteId}`).send()
+   const updatedNotes = await chai.request(server).get(`${statisticUrl}/${completedWorkoutDate}`).send()
+
+   // Assert
+   result.should.have.status(200)
+   updatedNotes.body[0].Notes.should.have.lengthOf(0)
+  })
+
+  it('Should return 400 if the statisticId is an invalid UUID.', async () => {
+   // Arrange
+   const invalidNoteId = "I DONT EXIST IN THE DATABASE"
+   const expectedError = "The UUID provided is in an invalid format."
+
+   // Act
+   const result = await chai.request(server).delete(`${baseUrl}/${invalidNoteId}`).send()
+
+   // Assert
+   result.should.have.status(400)
+   result.body.message.should.equal(expectedError)
+  })
+
+  it('Should return 404 if the statistic isnt found.', async () => {
+   // Arrange
+   const invalidNoteId = "74bee173-0969-4b5d-8eb4-e0c8f2383995"
+   const expectedError = "The note you have requested doesnt exist."
+
+   // Act
+   const result = await chai.request(server).delete(`${baseUrl}/${invalidNoteId}`).send()
+
+   // Assert
+   result.should.have.status(404)
+   result.body.message.should.equal(expectedError)
+  })
+ })
+})
+ 
+ /**
   * Tests for the CreateNote controller.
   */
  context('Create Note', () => {
@@ -93,5 +140,4 @@ describe('Notes Tests', () => {
    result.body.message.should.equal(expectedError)
   })
  })
-})
  
