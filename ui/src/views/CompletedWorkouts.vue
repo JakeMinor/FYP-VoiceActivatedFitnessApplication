@@ -28,7 +28,13 @@
         {{ formatDate(cell.item.completedDate) }}
       </template>
       <template #cell(actions)="cell">
-        <b-link :to="{name: 'Workout Statistics', params: { date: cell.item.completedDate }}">View Details</b-link>
+        <div class="d-flex flex-column">
+          <b-link class="mb-2" :to="{name: 'Workout Statistics', params: { date: cell.item.completedDate }}">View Details</b-link>
+          <b-link class="mb-2" @click="setSelectedWorkout(cell)">Notes<b-icon class="ml-2" :icon="cell.detailsShowing ? 'chevron-up' : 'chevron-down'" /></b-link>
+        </div>
+      </template>
+      <template #row-details="cell">
+        <Notes :completed-workout-date="cell.item.completedDate"></Notes>
       </template>
     </b-table>
   </div>
@@ -37,33 +43,49 @@
 <script lang="js">
 import Vue from 'vue';
 import Title from "../components/Title.vue";
+import Notes from '../components/Notes'
 import api from '../api/api'
 import { formatDate } from '@/helper';
 import { DatePicker } from 'v-calendar'
 
 export default Vue.extend({
   name: "CompletedWorkouts.vue",
-  components: { Title, DatePicker },
+  components: { Title, DatePicker, Notes },
   data() {
     return {
       workouts: [], // The users workouts.
-      filters: {
+      selectedWorkout: null, // The selected workout.
+      filters: { // The filters to be applied to the table
         name: '',
         exercisesCompleted: '',
         completedDate: ''
       },
-      config: {
+      config: { // The config settings of date picker filter.
         type: 'string',
         mask: 'iso'
       }
     }
   },
   methods: {
+    /**
+     * Format Date function from helper.js
+     */
     formatDate,
+    /**
+     * Reset all of the filters back to their original format.
+     */
     resetFilters() {
       this.filters.name = ''
       this.filters.exercisesCompleted = ''
       this.filters.completedDate = ''
+    },
+    /**
+     * Set the selected workout.
+     */
+    setSelectedWorkout(row) {
+      this.selectedWorkout = row.item
+      
+      row.toggleDetails()
     }
   },
   computed: {

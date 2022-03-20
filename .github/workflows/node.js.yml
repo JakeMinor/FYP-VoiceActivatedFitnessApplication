@@ -156,6 +156,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
+      # Package up the UI to be deployed on heroku
+      - name: Package UI
+        run: |
+          cd ui
+          npm ci
+          npm run build
+      
       - name: Deploy to heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:

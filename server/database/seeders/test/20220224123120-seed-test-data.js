@@ -19,6 +19,7 @@ module.exports = {
       name: "Test Workout"
     }]
     const testStatistics = [{
+      id: "421b6080-cadc-4641-9689-f09835034318",
       workoutId: "c98b0aa7-73ef-40ad-a366-6b3e36634fdb",
       user: "TestUser@email.com",
       exerciseId: "74bee173-0969-4b5d-8eb4-e0c8f2383995",
