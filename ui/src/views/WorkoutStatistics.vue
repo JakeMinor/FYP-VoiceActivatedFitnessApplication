@@ -3,13 +3,13 @@
     <Title :title="title" type="Page"/>
     <b-button :to="{ name: 'Completed Workouts' }" variant="primary" class="w-25">Back</b-button>
     <div class="d-flex mt-3">
-      <b-card class="mr-2">
+      <b-card class="mr-2 pr-4">
         <Title title="Workout Details" type="Subtitle" />
         <ul class="list-unstyled">
-          <li>Date Completed: {{ completedDate }}</li>
-          <li>Total Sets Completed: {{ totalSetsCompleted }}</li>
-          <li>Total Reps Completed: {{ totalRepsCompleted }}</li>
-          <li>Total Weight Lifted: {{ totalWeightLifted }}kg</li>
+          <li class="pb-3"><strong>Date Completed:</strong> {{ completedDate }}</li>
+          <li class="pb-3"><strong>Total Sets Completed:</strong> {{ totalSetsCompleted }}</li>
+          <li class="pb-3"><strong>Total Reps Completed:</strong> {{ totalRepsCompleted }}</li>
+          <li><strong>Total Weight Lifted:</strong> {{ totalWeightLifted }}kg</li>
         </ul>
       </b-card>
       <b-card class="ml-2 w-75">
@@ -18,6 +18,21 @@
           <template #head(Exercise.name)>
             Exercise Name
             <b-input id="nameFilter" v-model="filters.name" size="sm" class="mt-2" placeholder="Exercise Name..."></b-input>
+          </template>
+          <template #head(actions)="head">
+            <div class="d-flex flex-column">
+              {{ head.label }}
+              <b-button class="mt-3 text-left p-0 font-weight-normal" variant="link" @click="resetFilters">Reset filters</b-button>
+            </div>
+          </template>
+          <template #cell(reps)="cell">
+            {{ cell.item.reps === null ? 'N/A' : `${cell.item.reps} reps` }}
+          </template>
+          <template #cell(time)="cell">
+            {{ cell.item.timePerformed === null ? 'N/A' : `${cell.item.timePerformed} seconds` }}
+          </template>
+          <template #cell(weight)="cell">
+            {{ cell.item.weight === null ? 'N/A' : `${cell.item.weight}kg` }}
           </template>
         </b-table>
       </b-card>
@@ -49,7 +64,8 @@ export default Vue.extend({
         { key: "set", sortable: true },
         { key: "reps", sortable: true },
         { key: "time", sortable: true },
-        { key: "weight", sortable: true }
+        { key: "weight", sortable: true },
+        { key: "actions", sortable: false }
       ]
     },
     filteredItems() {
@@ -72,7 +88,10 @@ export default Vue.extend({
     },
   },
   methods: {
-    formatDate
+    formatDate,
+    resetFilters() {
+      this.filters.name = ''
+    }
   },
   async mounted() {
     if(!this.$route.params.date){

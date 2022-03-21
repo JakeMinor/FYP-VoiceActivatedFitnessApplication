@@ -1,7 +1,7 @@
 ﻿<template>
   <div>
-    <h2 class="mb-3" v-if="type === 'Page'">{{title}}</h2>
-    <h4 class="mb-2" v-else>{{title}}</h4>
+    <h2 class="mb-3 title" v-if="type === 'Page'">{{title}}</h2>
+    <h4 class="mb-2 title" v-else>{{title}}</h4>
   </div>
 </template>
 

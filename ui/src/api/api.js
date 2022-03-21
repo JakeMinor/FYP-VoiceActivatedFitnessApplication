@@ -27,6 +27,10 @@ class Api {
  async authenticate() {
   window.location.href = `${this.baseUrl}/auth/login`
  }
+
+ async signOut() {
+  return (await axios.get(`${this.baseUrl}/auth/logout`, {withCredentials: true}))
+ }
  
  async getAllWorkoutStatistics() {
   return (await axios.get(`${this.baseUrl}/statistic/`, {withCredentials: true})

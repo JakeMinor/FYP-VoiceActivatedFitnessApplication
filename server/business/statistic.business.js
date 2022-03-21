@@ -30,7 +30,7 @@ module.exports = class StatisticBusiness {
   // Get the stats for the workout from the database.
   const stats = await dataLayer.findAll({
    where: {user: user, completedDate: completedDate},
-   attributes: ['id', 'user', 'set', 'weight', 'reps', 'completedDate'], // Remove the exerciseId and workoutId from the statistics model.
+   attributes: ['id', 'user', 'set', 'weight', 'reps', 'timePerformed', 'completedDate'], // Remove the exerciseId and workoutId from the statistics model.
    include: [Workout, Exercise, Note] // Populate the Workout and Exercise data by the Ids on the statistics model.
   }).catch(error => {
    throw httpError(500, error.message)
@@ -55,6 +55,7 @@ module.exports = class StatisticBusiness {
    set: stat.setNumber,
    weight: stat.weight,
    reps: stat.completedReps,
+   timePerformed: stat.timePerformed,
    completedDate: Date.now()
   }))
   
