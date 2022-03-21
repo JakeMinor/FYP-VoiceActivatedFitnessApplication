@@ -28,7 +28,9 @@ class Api {
       name: response.data.name
      }
      store.dispatch('setUser', { token: token, user: user})
-    }).catch(error => throwToast(error.message))
+    }).catch(() => {
+     window.location.href = `${this.baseUrl}/auth/login`
+    })
  }
 
  /**
