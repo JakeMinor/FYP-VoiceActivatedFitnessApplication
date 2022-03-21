@@ -8,7 +8,7 @@
             <template #button-content>
               {{ username }}
             </template>
-            <b-dropdown-item>Sign out</b-dropdown-item>
+            <b-dropdown-item @click="signOut">Sign out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -23,6 +23,8 @@
 <script lang="js">
 import Vue from 'vue';
 import store from '../store/index'
+import api from '../api/api'
+
 export default Vue.extend({
   name: "NavigationBar",
   computed: {
@@ -31,6 +33,12 @@ export default Vue.extend({
      */
     username() {
       return store.getters.user?.email ?? ""
+    }
+  },
+  methods: {
+    async signOut() {
+      await api.signOut()
+      await api.authenticate()
     }
   }
 })

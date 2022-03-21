@@ -26,6 +26,9 @@
             </div>
           </template>
           <template #cell(time)="cell">
+            {{ cell.item.reps === null ? 'N/A' : `${cell.item.reps} reps` }}
+          </template>
+          <template #cell(time)="cell">
             {{ cell.item.timePerformed === null ? 'N/A' : `${cell.item.timePerformed} seconds` }}
           </template>
           <template #cell(weight)="cell">

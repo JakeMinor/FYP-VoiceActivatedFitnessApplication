@@ -25,6 +25,7 @@ router.get('/callback', (req, res, next) => {
  */
 router.get('/logout', (req, res) => {
  req.logout(); // Logs the user out.
+ res.status(200).clearCookie("access_token").send() // Deletes the access token from the cookies.
 })
 
 module.exports = router
