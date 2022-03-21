@@ -4,7 +4,7 @@
       <Title title="Notes" type="Subtitle" />
       <div v-if="completedWorkoutStatistics">
         <div v-if="notes.length !== 0">
-          <b-alert v-for="note in notes" :key="note.id" variant="info" class="d-flex m-0 mb-2 align-items-center" show>
+          <b-alert v-for="note in notes" :key="note.id" variant="primary" class="d-flex m-0 mb-2 align-items-center" show>
             <span>{{ note.note }}</span>
             <strong class="ml-auto">{{ formatDate(note.createdAt) }}</strong>
             <b-button variant="outline-primary" class="ml-2" @click="deleteNote(note.id)"><b-icon icon="trash"></b-icon></b-button>

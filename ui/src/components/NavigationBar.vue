@@ -1,7 +1,7 @@
 ﻿<template>
   <div class="mb-4 shadow-sm">
     <b-navbar class="navbar">
-      <h2>Voice Activated Fitness</h2>
+      <h2 class="navbar-title">Voice Activated <span class="navbar-title-green">Fitness</span></h2>
       <b-collapse is-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
