@@ -6,6 +6,7 @@ import api from '@/api/api'
 import Error from '@/views/Error'
 import CompletedWorkouts from "@/views/CompletedWorkouts";
 import WorkoutStatistics from "@/views/WorkoutStatistics";
+import PrivacyPolicy from "@/views/PrivacyPolicy";
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/error',
     name: 'Error',
     component: Error
+  },
+  {
+    path: '/privacy-policy',
+    name: 'Privacy Policy',
+    component: PrivacyPolicy
   },
   /**
    * Bounces any unrecognised routes to the error page.
