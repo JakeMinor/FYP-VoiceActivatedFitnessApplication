@@ -31,7 +31,7 @@
 <script lang="js">
 import Vue from 'vue';
 import Title from './Title'
-import { formatDate } from "@/helper";
+import { formatDate, throwToast } from "@/helper";
 import { ValidationObserver } from 'vee-validate'
 import CustomInput from "@/components/CustomInput";
 import api from "@/api/api";
@@ -94,6 +94,8 @@ export default Vue.extend({
         if(answer === true){
           api.deleteNote(noteId).then(() => {
             this.getNotes()
+          }).catch((error) => {
+            throwToast(error.message)
           })
         }
       }) 
@@ -104,6 +106,9 @@ export default Vue.extend({
     },
     async getNotes() {
       this.completedWorkoutStatistics = await api.getWorkoutStatistics(this.completedWorkoutDate)
+      .catch((error) => {
+        throwToast(error.message)
+      })
     }
   },
   async created() {

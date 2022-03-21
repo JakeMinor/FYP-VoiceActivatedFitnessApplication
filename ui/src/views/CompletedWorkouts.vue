@@ -89,6 +89,9 @@ export default Vue.extend({
     }
   },
   computed: {
+    /**
+     * Return a list of headings for the table specifying if they are sortable fields.
+     */
     tableHeaders() {
       return [
         { key: "name", sortable: true },
@@ -97,6 +100,9 @@ export default Vue.extend({
         { key: "actions", sortable: false }
       ]
     },
+    /**
+     * Return a list of filtered workouts based on the values in the table filters.
+     */
     filteredItems() {
       return this.$data.workouts.filter((workout) =>
           workout.name.includes(this.filters.name) &&
@@ -108,7 +114,9 @@ export default Vue.extend({
    * Gets the users workout statistics from the api.
    */
   async mounted() {
-    const workoutData = await api.getAllWorkoutStatistics()
+    const workoutData = await api.getAllWorkoutStatistics().catch(() => {
+      this.$router.push('Error')
+    })
     for(const date in workoutData){
       const workout = workoutData[date][0]
       this.$data.workouts.push({
