@@ -25,6 +25,26 @@ module.exports = class NoteBusiness {
     })
  }
  
+ async updateNote(noteId, data) {
+  // Checks that the note exists.
+  await doesNoteExist(noteId)
+
+  // Checks that the note contains data.
+  validateNote(data.note)
+  
+  // Format the note to be updated into the database.
+  const updatedNote = {
+   note: data.note
+  }
+  
+  // Update the Note in the Notes table.
+  return dataLayer.updateOne(noteId, updatedNote)
+    // Catch any Database errors.
+    .catch(error => {
+     throw httpError(400, error.message)
+    })
+ }
+ 
  async deleteNote(noteId) {
    // Checks that the note exists.
    await doesNoteExist(noteId)

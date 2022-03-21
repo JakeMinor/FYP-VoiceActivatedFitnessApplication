@@ -51,4 +51,14 @@
   return this.model.destroy({where: {id: id}})
     .catch(error => {throw error})
  }
+
+ /**
+  * Update an item based on its ID.
+  * @param id - the ID of the item which is to be updated.
+  * @param updatedNote - The new content for the note.
+  */
+  async updateOne(id, updatedNote) {
+   return this.model.update(updatedNote, {where: {id: id}})
+     .catch(error => {throw error})
+ }
 }

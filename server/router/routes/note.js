@@ -9,6 +9,11 @@ const isAuthenticated = require('../router.middleware').isAuthenticated
 router.post('/:id', isAuthenticated, noteController.createNote)
 
 /**
+ * Update a note.
+ */
+router.put('/:id', isAuthenticated, noteController.updateNote)
+
+/**
  * Delete a note.
  */
 router.delete('/:id', isAuthenticated, noteController.deleteNote)

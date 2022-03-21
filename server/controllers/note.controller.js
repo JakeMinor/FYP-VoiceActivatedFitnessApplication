@@ -11,6 +11,12 @@ exports.createNote = async (request, response) => {
    .catch((error) => {response.status(error.status).send({message: error.message})})
 }
 
+exports.updateNote = async (request, response) => {
+ noteBusiness.updateNote(request.params.id, request.body)
+   .then((note) => {response.status(200).send(note)})
+   .catch((error) => {response.status(error.status).send({message: error.message})})
+}
+
 /**
  * Delete a note attached to a workout.
  * @returns A 200 response when the note has been deleted.
