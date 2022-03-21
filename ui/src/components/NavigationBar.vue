@@ -36,6 +36,9 @@ export default Vue.extend({
     }
   },
   methods: {
+    /**
+     * Sign the user out of the website and redirect to the login screen.
+     */
     async signOut() {
       await api.signOut()
       await api.authenticate()

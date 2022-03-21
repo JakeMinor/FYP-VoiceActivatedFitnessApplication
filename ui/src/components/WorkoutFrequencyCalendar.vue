@@ -10,6 +10,7 @@ import Vue from 'vue';
 export default Vue.extend({
   name: "WorkoutFrequencyCalendar",
   props: {
+    // The workouts to populate the calendar with.
     workouts: {
       type: Object,
       required: true
@@ -17,7 +18,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      attributes: []
+      attributes: [] // the list of attributes used by the calendar.
     }
   },
   methods: {
@@ -36,14 +37,11 @@ export default Vue.extend({
       })
     },
     /**
-     * Gets a random colour to use for the bar underneath the date
+     * Gets a random colour to use for the bar underneath the date.
      **/
     randomiseColour() {
       const colours = ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink']
       return colours[Math.floor(Math.random() * colours.length)];
-    },
-    click(date) {
-      console.log(date)
     }
   },
   /**

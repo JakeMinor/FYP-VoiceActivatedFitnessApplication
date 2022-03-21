@@ -51,13 +51,16 @@ export default Vue.extend({
   components: { Title },
   data() {
     return {
-      statistics: null,
+      statistics: null, // The list of statistics.
       filters: {
-        name: ''
+        name: '' // Filter the workouts by name.
       }
     }
   },
   computed: {
+    /**
+     * Return a list of headings for the table specifying if they are sortable fields.
+     */
     tableHeaders() {
       return [
         { key: "Exercise.name", sortable: true },
@@ -68,36 +71,64 @@ export default Vue.extend({
         { key: "actions", sortable: false }
       ]
     },
+    /**
+     * Return a list of filtered workouts based on the value in the name table filter.
+     */
     filteredItems() {
       return this.$data.statistics.filter((statistic) => statistic.Exercise.name.includes(this.filters.name))
     },
+    /**
+     * Return the total weight lifted for the workout.
+     */
     totalWeightLifted() {
       return this.statistics.map(statistic => statistic.weight).reduce((a, b) => a + b, 0);
     },
+    /**
+     * Return the total reps completed for the workout.
+     */
     totalRepsCompleted() {
       return this.statistics.map(statistic => statistic.reps).reduce((a, b) => a + b, 0);
     },
+    /**
+     * Return the total sets completed for the workout.
+     */
     totalSetsCompleted() {
       return this.statistics.map(statistic => statistic.reps !== null).length
     },
+    /**
+     * Return the completed date of the workout
+     */
     completedDate() {
       return formatDate(this.statistics[0].completedDate)
     },
+    /**
+     * Format the title of the page.
+     */
     title() {
       return `Statistics for ${this.statistics[0].Workout.name} completed on ${formatDate(this.statistics[0].completedDate)}`
     },
   },
   methods: {
+    /**
+     * Format Date function from helper.js
+     */
     formatDate,
+    /**
+     * Reset the table filters.
+     */
     resetFilters() {
       this.filters.name = ''
     }
   },
   async mounted() {
+    // Push the user to the error page if there isn't a date in the url.
     if(!this.$route.params.date){
       await this.$router.push("Error")
     }
-    this.statistics = await api.getWorkoutStatistics(this.$route.params.date)
+    // Push the user to the error page if the API returns an unsuccessful response.
+    this.statistics = await api.getWorkoutStatistics(this.$route.params.date).catch(() => {
+      this.$router.push('Error')
+    })
   }
 })
 </script>

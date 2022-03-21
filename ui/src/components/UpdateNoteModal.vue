@@ -17,6 +17,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import CustomInput from "./CustomInput";
+import { throwToast } from '../helper'
 import { ValidationObserver } from "vee-validate";
 import api from "../api/api";
 
@@ -45,7 +46,7 @@ export default Vue.extend({
       }
       
       // Send the note and Id of the note to the api.
-      await api.updateNote(updatedNote, this.selectedNote.id)
+      await api.updateNote(updatedNote, this.selectedNote.id).catch((error) => { throwToast(error.message)})
 
       // Reset the note text.
       this.closeModal()
