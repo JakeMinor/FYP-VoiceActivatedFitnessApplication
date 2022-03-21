@@ -1,0 +1,463 @@
+﻿{
+  "swagger": "2.0",
+  "security": [{
+    "cookie": []
+  }],
+  "securityDefinitions": {
+    "cookie": {
+      "name": "access_token",
+      "in": "header",
+      "type": "apiKey",
+      "description": "Access token for API authentication"
+    }
+  },
+  "info": {
+    "title": "Voice Activated Fitness API",
+    "version": "1.0.0",
+    "description": "The API used for Voice Activated Fitness."
+  },
+  "tags": [
+    {
+      "name": "Workouts"
+    },
+    {
+      "name": "Statistics"
+    },
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "Notes"
+    }
+  ],
+  "host": "fyp-voice-activated-fitness.herokuapp.com",
+  "basePath": "/v1",
+  "paths": {
+    "/workout/{name}": {
+      "parameters": [
+        {
+          "name": "name",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "The name of the workout."
+        }
+      ],
+      "get": {
+        "tags": ["Workouts"],
+        "summary": "Gets a workout from the database using the workout name.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Workout"
+            }
+          },
+          "401": {
+            "description": "UNAUTHORISED",
+            "schema": {
+              "type": "string",
+              "example": "The provided token is invalid or has expired."
+            }
+          }
+        }
+      }
+    },
+    "/statistic": {
+      "get": {
+        "tags": ["Statistics"], 
+        "summary": "Get all of the workouts completed by the user.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Statistics"
+            }
+          },
+          "401": {
+            "description": "UNAUTHORISED",
+            "schema": {
+              "type": "string",
+              "example": "The provided token is invalid or has expired."
+            }
+          } 
+        }
+      },
+      "post": {
+        "tags": ["Statistics"],
+        "summary": "Create a statistic for a workout.",
+        "parameters": [
+          {
+            "name": "statistics",
+            "in": "body",
+            "required": true,
+            "description": "The statistics to be recorded for the workout.",
+            "schema": {
+              "$ref": "#/definitions/NewStatistic"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "schema": {
+              "$ref": "#/definitions/Statistics"
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "schema": {
+              "type": "string",
+              "example": "Workout Statistic data is missing."
+            }
+          },
+          "401": {
+            "description": "UNAUTHORISED",
+            "schema": {
+              "type": "string",
+              "example": "The provided token is invalid or has expired."
+            }
+          }
+        }
+      }
+    },
+    "/statistic/{date}": {
+      "parameters": [
+        {
+          "name": "date",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "The date the workout was completed."
+        }
+      ],
+      "get": {
+        "tags": ["Statistics"],
+        "summary": "Gets all of the statistics for a workout.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Statistic"
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "schema": {
+              "type": "string",
+              "example": "Date string is not valid."
+            }
+          },
+          "401": {
+            "description": "UNAUTHORISED",
+            "schema": {
+              "type": "string",
+              "example": "The provided token is invalid or has expired."
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "schema": {
+              "type": "string",
+              "example": "There are no stats for the requested workout."
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Authenticate using Login with Amazon.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "schema": {
+              "type": "string",
+              "example": "The provided token is invalid."
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Remove authentication from the user.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/note/{id}": {
+      "post": {
+        "tags": ["Notes"],
+        "summary": "Create a note.",
+        "parameters": [
+          {
+            "name": "note",
+            "in": "body",
+            "required": true,
+            "description": "The note to be added to a workout.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "The ID of the statistic the note is attached to.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "CREATED"
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "schema": {
+              "type": "string",
+              "example": ["The UUID provided is in an invalid format.", "Note is missing."]
+            }
+          },
+          "401": {
+            "description": "UNAUTHORISED",
+            "schema": {
+              "type": "string",
+              "example": "The provided token is invalid or has expired."
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "schema": {
+              "type": "string",
+              "example": "There are no stats for the requested workout."
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Notes"],
+        "summary": "Update a note.",
+        "parameters": [
+          {
+            "name": "note",
+            "in": "body",
+            "required": true,
+            "description": "The note to be updated on a workout.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "The ID of the note which is to be updated.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "schema": {
+              "type": "string",
+              "example": ["The UUID provided is in an invalid format.", "Note is missing."]
+            }
+          },
+          "401": {
+            "description": "UNAUTHORISED",
+            "schema": {
+              "type": "string",
+              "example": "The provided token is invalid or has expired."
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "schema": {
+              "type": "string",
+              "example": "The note you have requested doesnt exist."
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Notes"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "The ID of the note which is to be deleted.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "UNAUTHORISED",
+            "schema": {
+              "type": "string",
+              "example": "The provided token is invalid or has expired."
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "schema": {
+              "type": "string",
+              "example": "The note you have requested doesnt exist."
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Workout": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "Exercises": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Exercise"
+          }
+        }
+      }
+    },
+    "Exercise": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "information": {
+          "type": "string"
+        },
+        "Workout_Exercises": {
+          "type": "object",
+          "items": {
+            "$ref": "#/definitions/Workout_Exercises"
+          }
+        }
+      }
+    },
+    "Workout_Exercises": {
+      "properties": {
+        "Reps": {
+          "type": "number"
+        },
+        "Sets": {
+          "type": "number"
+        },
+        "TimeInSeconds": {
+          "type": "number"
+        },
+        "RestTimeInSeconds": {
+          "type": "number"
+        }
+      }
+    },
+    "NewStatistic": {
+      "properties": {
+        "workoutId": {
+          "type": "string"
+        },
+        "exercises": {
+          "type": "object",
+          "properties": {
+            "setNumber": {
+              "type": "number"
+            },
+            "weight": {
+              "type": "number"
+            },
+            "completedReps": {
+              "type": "number"
+            },
+            "timePerformed": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "Statistics": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "user": {
+          "type": "string"
+        },
+        "set": {
+          "type": "number"
+        },
+        "weight": {
+          "type": "number"
+        },
+        "reps": {
+          "type": "number"
+        },
+        "completedDate": {
+          "type": "string"
+        },
+        "Workout": {
+          "type": "object",
+          "items": {
+            "$ref": "#/definitions/Workout"
+          }
+        },
+        "Exercise": {
+          "type": "object",
+          "items": {
+            "$ref": "#/definitions/Exercise"
+          }
+        }
+      }
+    }
+  }
+}
