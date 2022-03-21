@@ -25,7 +25,7 @@
               <b-button class="mt-3 text-left p-0 font-weight-normal" variant="link" @click="resetFilters">Reset filters</b-button>
             </div>
           </template>
-          <template #cell(time)="cell">
+          <template #cell(reps)="cell">
             {{ cell.item.reps === null ? 'N/A' : `${cell.item.reps} reps` }}
           </template>
           <template #cell(time)="cell">
