@@ -7,16 +7,14 @@
           <b-alert v-for="note in notes" :key="note.id" variant="info" class="d-flex m-0 mb-2 align-items-center" show>
             <span>{{ note.note }}</span>
             <strong class="ml-auto">{{ formatDate(note.createdAt) }}</strong>
-            <b-button variant="outline-primary" class="ml-2" @click="deleteNote(note.id)">
-              <b-icon icon="trash"></b-icon>
-            </b-button>
+            <b-button variant="outline-primary" class="ml-2" @click="deleteNote(note.id)"><b-icon icon="trash"></b-icon></b-button>
+            <b-button variant="outline-primary" class="ml-2" v-b-modal.updateNoteModal @click="selectedNote = note"><b-icon icon="pencil"></b-icon></b-button>
           </b-alert>
         </div>
         <div v-else>
           <b-alert class="text-center" variant="secondary" show>You have written no notes for this workout, why not add some!</b-alert>
         </div>
       </div>
-      
       <ValidationObserver ref="observer">
         <div class="d-flex">
           <custom-input id="Add-Note" label="Note"
@@ -25,6 +23,7 @@
           <b-button class="h-50 mt-4 ml-2" @click="createNote" variant="primary">Send</b-button>
         </div>
       </ValidationObserver>
+      <update-note-modal id="updateNoteModal" v-if="selectedNote" :selected-note="selectedNote" @closed="selectedNote = null"/>
     </div>
   </b-card>
 </template>
@@ -36,13 +35,15 @@ import { formatDate } from "@/helper";
 import { ValidationObserver } from 'vee-validate'
 import CustomInput from "@/components/CustomInput";
 import api from "@/api/api";
+import UpdateNoteModal from "@/components/UpdateNoteModal";
 
 export default Vue.extend({
   name: "Notes",
-  components: { Title, ValidationObserver, CustomInput },
+  components: {UpdateNoteModal, Title, ValidationObserver, CustomInput },
   data() {
     return {
       completedWorkoutStatistics: null, // The statistics of the selected workout which notes will be attached to.
+      selectedNote: null,
       note: '' // The note which is to be added.
     }
   },
@@ -97,6 +98,9 @@ export default Vue.extend({
         }
       }) 
       .catch(() => {})
+    },
+    async modalClosed() {
+      await this.getNotes()
     },
     async getNotes() {
       this.completedWorkoutStatistics = await api.getWorkoutStatistics(this.completedWorkoutDate)

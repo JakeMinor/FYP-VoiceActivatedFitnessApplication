@@ -43,6 +43,11 @@ class Api {
     .catch(error => throwToast(error.message))).data
  }
  
+ async updateNote(note, noteId) {
+  return (await axios.put(`${this.baseUrl}/note/${noteId}`, note, {withCredentials: true})
+    .catch(error => throwToast(error.message))).data
+ }
+ 
  async deleteNote(noteId) {
   return (await axios.delete(`${this.baseUrl}/note/${noteId}`, {withCredentials: true})
     .catch(error => throwToast(error.message)))
