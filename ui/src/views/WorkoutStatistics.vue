@@ -7,14 +7,14 @@
         <Title title="Workout Details" type="Subtitle" />
         <ul class="list-unstyled">
           <li class="pb-3"><strong>Date Completed:</strong> {{ completedDate }}</li>
-          <li class="pb-3"><strong>Total Sets Completed:</strong> {{ totalSetsCompleted }}</li>
-          <li class="pb-3"><strong>Total Reps Completed:</strong> {{ totalRepsCompleted }}</li>
-          <li><strong>Total Weight Lifted:</strong> {{ totalWeightLifted }}kg</li>
+          <li class="pb-3"><strong>Total Sets Completed:</strong> {{ totalSetsCompleted(Object.values(statistics).flat()) }} sets</li>
+          <li class="pb-3"><strong>Total Reps Completed:</strong> {{ totalRepsCompleted(Object.values(statistics).flat()) }} reps</li>
+          <li><strong>Total Weight Lifted:</strong> {{ totalWeightLifted(Object.values(statistics).flat()) }}kg</li>
         </ul>
       </b-card>
       <b-card class="ml-2 w-75">
         <Title title="Exercises Performed" type="Subtitle" />
-        <b-table :fields="tableHeaders" :items="filteredItems" show-empty empty-text="No statistics could be found.">
+        <b-table :fields="tableHeaders" :items="filteredItems" show-empty striped empty-text="No statistics could be found.">
           <template #head(Exercise.name)>
             Exercise Name
             <b-input id="nameFilter" v-model="filters.name" size="sm" class="mt-2" placeholder="Exercise Name..."></b-input>
@@ -25,14 +25,29 @@
               <b-button class="mt-3 text-left p-0 font-weight-normal" variant="link" @click="resetFilters">Reset filters</b-button>
             </div>
           </template>
-          <template #cell(reps)="cell">
-            {{ cell.item.reps === null ? 'N/A' : `${cell.item.reps} reps` }}
+          <template #cell(Exercise.name)="cell">
+            {{cell.item[0].Exercise.name}}
           </template>
-          <template #cell(time)="cell">
-            {{ cell.item.timePerformed === null ? 'N/A' : `${cell.item.timePerformed} seconds` }}
+          <template #cell(completedSets)="cell">
+            {{  `${totalSetsCompleted(cell.item)} sets` }}
           </template>
-          <template #cell(weight)="cell">
-            {{ cell.item.weight === null ? 'N/A' : `${cell.item.weight}kg` }}
+          <template #cell(completedReps)="cell">
+            {{ `${totalRepsCompleted(cell.item)} reps` }}
+          </template>
+          <template #cell(totalTimePerformed)="cell">
+            {{ totalTimePerformed(cell.item) === 0 ? 'N/A' : `${totalTimePerformed(cell.item)} seconds` }}
+          </template>
+          <template #cell(totalWeightLifted)="cell">
+            {{ `${totalWeightLifted(cell.item)}kg` }}
+          </template>
+          <template #cell(actions)="cell">
+            <div class="d-flex flex-column">
+              <b-link class="mb-2" @click="cell.toggleDetails()">View Statistics
+                <b-icon class="ml-2" :icon="cell.detailsShowing ? 'chevron-up' : 'chevron-down'" /></b-link>
+            </div>
+          </template>
+          <template #row-details="cell">
+            <statistic-details v-if="cell.item" :statistics="cell.item"></statistic-details>
           </template>
         </b-table>
       </b-card>
@@ -45,10 +60,11 @@ import Vue from 'vue';
 import Title from "../components/Title.vue";
 import api from '../api/api'
 import { formatDate } from '@/helper';
+import StatisticDetails from "../components/StatisticDetails.vue";
 
 export default Vue.extend({
   name: "WorkoutStatistics.vue",
-  components: { Title },
+  components: { Title, StatisticDetails },
   data() {
     return {
       statistics: null, // The list of statistics.
@@ -64,10 +80,10 @@ export default Vue.extend({
     tableHeaders() {
       return [
         { key: "Exercise.name", sortable: true },
-        { key: "set", sortable: true },
-        { key: "reps", sortable: true },
-        { key: "time", sortable: true },
-        { key: "weight", sortable: true },
+        { key: "completedSets", sortable: true },
+        { key: "completedReps", sortable: true },
+        { key: "totalWeightLifted", sortable: true },
+        { key: "totalTimePerformed", sortable: true },
         { key: "actions", sortable: false }
       ]
     },
@@ -75,37 +91,20 @@ export default Vue.extend({
      * Return a list of filtered workouts based on the value in the name table filter.
      */
     filteredItems() {
-      return this.$data.statistics.filter((statistic) => statistic.Exercise.name.includes(this.filters.name))
-    },
-    /**
-     * Return the total weight lifted for the workout.
-     */
-    totalWeightLifted() {
-      return this.statistics.map(statistic => statistic.weight).reduce((a, b) => a + b, 0);
-    },
-    /**
-     * Return the total reps completed for the workout.
-     */
-    totalRepsCompleted() {
-      return this.statistics.map(statistic => statistic.reps).reduce((a, b) => a + b, 0);
-    },
-    /**
-     * Return the total sets completed for the workout.
-     */
-    totalSetsCompleted() {
-      return this.statistics.map(statistic => statistic.reps !== null).length
+      return Object.entries(this.statistics).map(exercise => exercise[1]).filter((statistic) => statistic[0].Exercise.name.includes(this.filters.name))
     },
     /**
      * Return the completed date of the workout
      */
     completedDate() {
-      return formatDate(this.statistics[0].completedDate)
+      return formatDate(Object.values(this.statistics)[0][0].completedDate)
     },
     /**
      * Format the title of the page.
      */
     title() {
-      return `Statistics for ${this.statistics[0].Workout.name} completed on ${formatDate(this.statistics[0].completedDate)}`
+      const firstExercise = Object.values(this.statistics)[0][0]
+      return `Statistics for ${firstExercise.Workout.name} completed on ${formatDate(firstExercise.completedDate)}`
     },
   },
   methods: {
@@ -118,9 +117,33 @@ export default Vue.extend({
      */
     resetFilters() {
       this.filters.name = ''
+    },
+    /**
+     * Return the total sets completed for the exercise/workout.
+     */
+    totalSetsCompleted(statistics) {
+      return statistics.filter(statistic => statistic.reps !== null).length
+    },
+    /**
+     * Return the total reps completed for the exercise/workout.
+     */
+    totalRepsCompleted(statistics) {
+      return statistics.map(statistic => statistic.reps).reduce((a, b) => a + b, 0)
+    },
+    /**
+     * Return the total weight lifted for the exercise/workout.
+     */
+    totalWeightLifted(statistics) {
+      return statistics.map(statistic => statistic.weight).reduce((a, b) => a + b, 0)
+    },
+    /**
+     * Return the total time performed for the exercise.
+     */
+    totalTimePerformed(statistics) {
+      return statistics.map(statistic => statistic.timePerformed).reduce((a, b) => a + b, 0)
     }
   },
-  async mounted() {
+  async created() {
     // Push the user to the error page if there isn't a date in the url.
     if(!this.$route.params.date){
       await this.$router.push("Error")

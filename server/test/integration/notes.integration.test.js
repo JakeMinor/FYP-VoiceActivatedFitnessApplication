@@ -42,11 +42,12 @@ describe('Notes Tests', () => {
    // Act
    const result = await chai.request(server).put(`${baseUrl}/${noteId}`).send(updatedNote)
    const updatedNotes = await chai.request(server).get(`${statisticUrl}/${completedWorkoutDate}`).send()
-
+   const stats = updatedNotes.body[Object.keys(updatedNotes.body)[0]]
+   
    // Assert
    result.should.have.status(200)
-   updatedNotes.body[0].Notes[0].statisticId.should.equal(statisticId)
-   updatedNotes.body[0].Notes[0].note.should.equal(updatedNote.note)
+   stats[0].Notes[0].statisticId.should.equal(statisticId)
+   stats[0].Notes[0].note.should.equal(updatedNote.note)
   })
 
   it('Should return 400 if the note is missing.', async () => {
@@ -127,10 +128,11 @@ describe('Notes Tests', () => {
    // Act
    const result = await chai.request(server).delete(`${baseUrl}/${noteId}`).send()
    const updatedNotes = await chai.request(server).get(`${statisticUrl}/${completedWorkoutDate}`).send()
+   const stats = updatedNotes.body[Object.keys(updatedNotes.body)[0]]
 
    // Assert
    result.should.have.status(200)
-   updatedNotes.body[0].Notes.should.have.lengthOf(0)
+   stats[0].Notes.should.have.lengthOf(0)
   })
 
   it('Should return 400 if the noteId is an invalid UUID.', async () => {

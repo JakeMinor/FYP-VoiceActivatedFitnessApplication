@@ -122,7 +122,7 @@ export default Vue.extend({
       this.$data.workouts.push({
        name: workout.Workout.name,
        completedDate: workout.completedDate,
-       numberOfExercisesCompleted: workoutData[date].length
+       numberOfExercisesCompleted: workoutData[date].filter(x => x.reps !== null).length
       })
     }
   }

@@ -125,6 +125,27 @@ module.exports = {
     ]
     const workoutsExercises = [
       {
+        WorkoutId: getIdByName('Demo workout', seededWorkouts),
+        ExerciseId: getIdByName('Pushup', seededExercises),
+        Reps: 2,
+        Sets: 4,
+        RestTimeInSeconds: 3
+      },
+      {
+        WorkoutId: getIdByName('Demo workout', seededWorkouts),
+        ExerciseId: getIdByName('Squat', seededExercises),
+        Reps: 15,
+        Sets: 3,
+        RestTimeInSeconds: 3
+      },
+      {
+        WorkoutId: getIdByName('Demo workout', seededWorkouts),
+        ExerciseId: getIdByName('Run', seededExercises),
+        TimeInSeconds: 5,
+        Sets: 2,
+        RestTimeInSeconds: 3
+      },
+      {
         WorkoutId: getIdByName('All body workout', seededWorkouts),
         ExerciseId: getIdByName('Pushup', seededExercises),
         Reps: 15,

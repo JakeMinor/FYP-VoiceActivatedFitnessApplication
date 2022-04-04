@@ -41,8 +41,11 @@ module.exports = class StatisticBusiness {
    // Return a 404 telling the user there are no stats.
    throw httpError(404, "There are no stats for the requested workout.")
   } else {
-   // Return the stats.
-   return stats
+   // Group the statistics by the Exercise name.
+   return stats.reduce((groups, item) => ({
+    ...groups,
+    [item.Exercise.name]: [...(groups[item.Exercise.name] || []), item]
+   }), {});
   }
  }
  
