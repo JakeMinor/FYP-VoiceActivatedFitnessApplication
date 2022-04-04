@@ -69,17 +69,18 @@ describe('Workout Statistics Tests', () => {
 
    // Act
    const result = await chai.request(server).get(`${baseUrl}/${completedDate}`).send()
-
+   const stats = result.body[Object.keys(result.body)[0]]
    // Assert
    result.should.have.status(200)
-   result.body.should.be.lengthOf(1)
-   result.body[0].completedDate.should.equal(completedDate)
-   result.body[0].user.should.equal(expectedUser)
-   result.body[0].set.should.equal(expectedSets)
-   result.body[0].weight.should.equal(expectedWeights)
-   result.body[0].reps.should.equal(expectedReps)
-   result.body[0].Workout.name.should.equal(expectedWorkoutName)
-   result.body[0].Exercise.name.should.equal(expectedExerciseName)
+   console.log(stats)
+   stats.should.be.lengthOf(1)
+   stats[0].completedDate.should.equal(completedDate)
+   stats[0].user.should.equal(expectedUser)
+   stats[0].set.should.equal(expectedSets)
+   stats[0].weight.should.equal(expectedWeights)
+   stats[0].reps.should.equal(expectedReps)
+   stats[0].Workout.name.should.equal(expectedWorkoutName)
+   stats[0].Exercise.name.should.equal(expectedExerciseName)
   })
  
   it('Should return 400 and an error message if the date string isnt valid.', async () => {

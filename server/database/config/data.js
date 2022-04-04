@@ -154,5 +154,8 @@ module.exports.exercises = [
 module.exports.workouts = [
  {
   name: "All body workout"
+ },
+ { 
+  name: "Demo workout"
  }
 ]
