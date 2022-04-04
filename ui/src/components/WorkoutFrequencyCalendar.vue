@@ -1,6 +1,6 @@
 ﻿<template>
   <div>
-    <vc-calendar @dayclick="click" is-expanded :attributes="attributes" />
+    <vc-calendar is-expanded :attributes="attributes" />
   </div>
 </template>
 
