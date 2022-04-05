@@ -1,7 +1,7 @@
 ﻿<template>
   <div>
     <Title title="Completed Workouts" type="Page" />
-    <b-table :fields="tableHeaders" :items="filteredItems" show-empty empty-text="No workouts could be found.">
+    <b-table :fields="tableHeaders" :items="filteredItems" show-empty striped empty-text="No workouts could be found.">
       <template #head(name)="head">
         {{head.label}}
         <b-input id="nameFilter" v-model="filters.name" size="sm" class="mt-2" placeholder="Name..."></b-input>

@@ -52,7 +52,7 @@ export default Vue.extend({
   },
   computed: {
     notes() {
-      return this.completedWorkoutStatistics[0].Notes
+      return Object.values(this.completedWorkoutStatistics)[0][0].Notes
     }
   },
   methods: {
