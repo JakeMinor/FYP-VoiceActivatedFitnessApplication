@@ -23,17 +23,25 @@ import Vue from 'vue';
 export default Vue.extend({
   name: "StatisticDetails",
   props: {
+    // The statistic which is to be displayed in the table.
     statistics: null
   },
   data() {
     return {
+      // Stores the statistic sorted by the set number.
       sortedStatistics: [...this.statistics]
     }
   },
   computed: {
+    /**
+     * Returns the statistic table items.
+     */
     tableItems() {
       return this.sortedStatistics
     },
+    /**
+     * Return a list of headings for the table specifying if they are sortable fields.
+     */
     tableHeaders() {
       return [
         { key: "set", sortable: true },
@@ -42,6 +50,9 @@ export default Vue.extend({
       ]
     }
   },
+  /**
+   * Sorts the statistics in descending order.
+   */
   created() {
     this.sortedStatistics = this.statistics.sort((a, b) => a.set - b.set)
   }
