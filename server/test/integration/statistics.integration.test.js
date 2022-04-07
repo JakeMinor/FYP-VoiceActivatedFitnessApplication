@@ -72,7 +72,6 @@ describe('Workout Statistics Tests', () => {
    const stats = result.body[Object.keys(result.body)[0]]
    // Assert
    result.should.have.status(200)
-   console.log(stats)
    stats.should.be.lengthOf(1)
    stats[0].completedDate.should.equal(completedDate)
    stats[0].user.should.equal(expectedUser)
@@ -132,7 +131,6 @@ describe('Workout Statistics Tests', () => {
      ]
    }
    const expectedUser = "TestUser@email.com"
-
    
    // Act
    const result = await chai.request(server).post(`${baseUrl}`).send(workoutStatistics)

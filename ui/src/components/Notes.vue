@@ -52,7 +52,7 @@ export default Vue.extend({
   },
   computed: {
     notes() {
-      return this.completedWorkoutStatistics[0].Notes
+      return Object.values(this.completedWorkoutStatistics)[0][0].Notes
     }
   },
   methods: {
@@ -76,7 +76,7 @@ export default Vue.extend({
       }
       
       // Send the note and Id of the statistic to the api.
-      await api.createNote(noteToInsert, this.completedWorkoutStatistics[0].id)
+      await api.createNote(noteToInsert, Object.values(this.completedWorkoutStatistics)[0][0].id)
       
       // Reset the note text.
       this.note = ''
